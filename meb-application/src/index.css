@@ -1,0 +1,17 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+::-webkit-scrollbar {
+    width: 5px; /* Safari ve Chrome */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #61d4af; /* Scrollbar rengi */
+    border-radius: 4px; /* Scrollbar köşe yarıçapı */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Scrollbar yolu rengi */
+  }
+  
