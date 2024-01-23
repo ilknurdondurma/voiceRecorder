@@ -37,7 +37,7 @@ function Skor() {
           <div>
               <Button variant="PrimaryOutline" className="my-5 text-black">Filtrele</Button>
           </div>
-          <Table data={tableData} columns={tableColumns} initialSort={"appDate"} />
+          <Table data={tableData} columns={tableColumns} initialSort={"appDate"} route={"rapor"}/>
 
         </div>
 

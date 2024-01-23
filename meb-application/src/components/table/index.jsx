@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { TbArrowsSort } from 'react-icons/tb';
 import { Link } from 'react-router-dom';
 
-const Table = ({ data, columns , initialSort }) => {
+const Table = ({ data, columns , initialSort,route }) => {
   const initialSortColumn =initialSort;
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,7 +54,7 @@ const Table = ({ data, columns , initialSort }) => {
                 <td key={column.key} className="border-y-2 border-y-gray-300 py-2 px-4 relative">
                   <div className="">
                     {column.key === 'appName' ? (
-                      <Link to={`/rapor/${row['id']}`} className="text-primary hover:underline">
+                      <Link to={`/${route}/${row['id']}`} className="text-primary hover:underline">
                         <span
                           className="text-black hover:underline"
                           style={{

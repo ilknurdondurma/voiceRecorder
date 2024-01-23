@@ -6,6 +6,7 @@ import Skor from "../pages/skor";
 import YeniOkuma from "../pages/yeni-okuma";
 import Rapor from "../pages/rapor";
 import VoiceRecord from "../pages/voice-record";
+import Okuma from "../pages/okuma";
 
 const routes = createBrowserRouter([
     {
@@ -23,6 +24,14 @@ const routes = createBrowserRouter([
             {
                 path: '/okumalarim',
                 element: <Okumalar/>
+            },
+            {
+                path: '/okuma',
+                element: <Okuma/>,
+                children:[
+                    {
+                        path:"/okuma/:id" , element:<Okuma/>
+                    },]
             },
             {
                 path: '/yeni-okuma',

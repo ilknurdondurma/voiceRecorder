@@ -36,7 +36,7 @@ function Sidebar() {
       <div className='h-full text-black text-lg sm:text-sm pt-5  flex flex-col justify-between'>
         <div className='self-start w-full pl-4 lg:pl-2'>
           {sidebarElements.map((menu) => (
-            <NavLink key={menu.id} to={`/${menu.route}`} activeClassName="bg-primary text-white">
+            <NavLink key={menu.id} to={`/${menu.route}`}>
               <div key={menu.id} className='flex  m-2 p-2 cursor-pointer hover:bg-primary hover:text-white  rounded-md'>
                 <div className='mr-2'>{menu.icon}</div>
                 <div>{menu.title}</div>
