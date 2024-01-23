@@ -8,8 +8,8 @@ module.exports = {
     extend: {
       colors: {
         primary:'#d2392e',//green
-        secondary:'#6366f1',//purple
-        tertiary:"#111111",
+        secondary:'#f8fafc',//purple
+        tertiary:"#fff5ee",
         
         text_primary:"#52525b", //text-zinc-[600]
         text_secondary:"#00ce98",// green
@@ -39,10 +39,10 @@ module.exports = {
       'sm': {'min': '0', 'max': '767px'},
       // => @media (min-width: 640px and max-width: 767px) { ... }
 
-      'md': {'min': '768px', 'max': '1023px'},
+      'md': {'min': '768px', 'max': '1250px'},
       // => @media (min-width: 768px and max-width: 1023px) { ... }
 
-      'lg': {'min': '1024px', 'max': '1279px'},
+      'lg': {'min': '1250px', 'max': '1279px'},
       // => @media (min-width: 1024px and max-width: 1279px) { ... }
 
       'xl': {'min': '1280px', 'max': '1535px'},

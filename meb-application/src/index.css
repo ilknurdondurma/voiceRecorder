@@ -3,12 +3,12 @@
 @import "tailwindcss/utilities";
 
 ::-webkit-scrollbar {
-    width: 5px; /* Safari ve Chrome */
+    width: 4px; /* Safari ve Chrome */
   }
   
   ::-webkit-scrollbar-thumb {
-    background-color: #61d4af; /* Scrollbar rengi */
-    border-radius: 4px; /* Scrollbar köşe yarıçapı */
+    background-color: #d2392e; /* Scrollbar rengi */
+    border-radius: 2px; /* Scrollbar köşe yarıçapı */
   }
   
   ::-webkit-scrollbar-track {

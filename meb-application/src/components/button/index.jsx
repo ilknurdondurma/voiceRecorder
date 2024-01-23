@@ -8,11 +8,11 @@ export default function Button({ variant,size,children,as,className,onClick, ...
     className: classNames (
         "inline-flex items-center justify-center rounded ",
          {
-            "bg-primary   text-white   shadow-indigo-500/50   " : variant === 'Green',
-            "bg-secondary text-white   shadow-indigo-500/50   ": variant ==='Purple',
+            "bg-primary   text-white   shadow-indigo-500/50   " : variant === 'Primary',
+            "bg-secondary text-white   shadow-indigo-500/50   ": variant ==='Secondary',
 
-            "bg-white text-primary   shadow-sm shadow-primary   " : variant === 'GreenOutline',
-            "bg-transparent text-secondary border border-1 shadow-sm shadow-secondary hover:shadow-secondary hover:shadow-md": variant ==='PurpleOutline',
+            "bg-white text-black   shadow-sm shadow-primary   " : variant === 'PrimaryOutline',
+            "bg-transparent text-secondary border border-1 shadow-sm shadow-secondary hover:shadow-secondary hover:shadow-md": variant ==='SecondaryOutline',
 
             "bg-transparent ": variant === 'LikeButton',
             "bg-transparent text-black hover:shadow-lg": variant === 'TransparentButton',
@@ -33,7 +33,7 @@ export default function Button({ variant,size,children,as,className,onClick, ...
 
 Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-  variant: PropTypes.oneOf(['Green','GreenOutline', 'Purple', 'PurpleOutline', 'TransparentButton', 'LikeButton','DeleteButton']),
+  variant: PropTypes.oneOf(['Primary','PrimaryOutline', 'Secondary', 'SecondaryOutline', 'TransparentButton', 'LikeButton','DeleteButton']),
   size: PropTypes.oneOf(['xsmall','normal', 'small', 'large']),
   as: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   props: PropTypes.object,

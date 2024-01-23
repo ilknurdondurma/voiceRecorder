@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink, useNavigate} from 'react-router-dom';
 import { CiAlignTop } from "react-icons/ci";
 import { FaBookOpenReader } from "react-icons/fa6";
 import {BiSolidBookAdd } from "react-icons/bi";
@@ -10,13 +11,13 @@ function Sidebar() {
       id: 1,
       title: 'Skorlarım',
       icon: <CiAlignTop  size="20px" color='black' style={{ transform: 'rotate(180deg)' }} />,
-      route:'/skor'
+      route:'skorlarim'
     },
     {
       id: 2,
       title: 'Okumalarım',
       icon: <FaBookOpenReader size="20px" color='black' />,
-      route:'/okumalarim'
+      route:'okumalarim'
     },
     {
       id: 3,
@@ -25,19 +26,27 @@ function Sidebar() {
       route:'yeni-okuma'
     },
   ];
+  const navigate=useNavigate();
+  const goReportHandle =()=>{
+    navigate('/rapor/1')
+}
   const progressValue = 39;
   return (
-    <div className='mr-5 border-primary border-2 rounded-3xl p-1 m-4'>
-      <div className='text-black font-bold text-lg sm:text-sm flex flex-col justify-center pt-5'>
-        {sidebarElements.map((menu) => (
-          <div key={menu.id} className='flex  m-2 p-2 cursor-pointer hover:bg-primary hover:text-white  rounded-md'>
-            <div className='mr-2'>{menu.icon}</div>
-            <div>{menu.title}</div>
-          </div>
-        ))}
-        <div className=' w-3/4 self-center  my-10 bg-primary text-white p-10 rounded-3xl text-center flex flex-col justify-center border-black border-2'>
-          <span className='text-sm p-1'>Okuma <br></br>Performansım</span>
-          <span className='self-center p-1'><RoundProgressBar progress={progressValue} /></span>
+    <div className=' fixed w-1/6 md:w-1/4 border-primary bg-white border-2 rounded-xl p-1 m-4 h-4/5  '>
+      <div className='h-full text-black text-lg sm:text-sm pt-5  flex flex-col justify-between'>
+        <div className='self-start w-full pl-4 lg:pl-2'>
+          {sidebarElements.map((menu) => (
+            <NavLink key={menu.id} to={`/${menu.route}`} activeClassName="bg-primary text-white">
+              <div key={menu.id} className='flex  m-2 p-2 cursor-pointer hover:bg-primary hover:text-white  rounded-md'>
+                <div className='mr-2'>{menu.icon}</div>
+                <div>{menu.title}</div>
+              </div>
+            </NavLink>
+          ))}
+        </div>
+        <div className=' w-3/4 h-1/3 self-center my-10 bg-primary/90 text-white p-10 rounded-3xl text-center flex flex-col justify-center border-black border-2'>
+          <span className='text-sm font-bold p-1 self-center'>Son<br></br>Okuma <br></br>Performansım</span>
+          <span className='self-center p-1' onClick={goReportHandle}><RoundProgressBar progress={progressValue} /></span>
         </div>
 
       </div>
@@ -85,7 +94,7 @@ export default Sidebar;
     </div>
     <div className="flex mt-2">
       {Array.from({ length: 3 }).map((_, index) => (
-        <span key={index}>{index < starCount ? <FaStar className="text-yellow-500" /> : <FaRegStar className="text-gray-300" />}</span>
+        <span key={index}>{index < starCount ? <FaStar className="text-white" /> : <FaRegStar className="text-gray-300" />}</span>
       ))}
     </div>
   </div>

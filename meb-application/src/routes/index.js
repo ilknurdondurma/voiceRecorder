@@ -20,7 +20,7 @@ const routes = createBrowserRouter([
                 element: <Skor/>
             },
             {
-                path: '/okumalarım',
+                path: '/okumalarim',
                 element: <Okumalar/>
             },
             {
@@ -29,7 +29,12 @@ const routes = createBrowserRouter([
             },
             {
                 path: '/rapor',
-                element: <Rapor/>
+                element: <Rapor/>,
+                children:[
+                    {
+                        path:"/rapor/:id" , element:<Rapor/>
+                    },
+                ]
             },
           
             
