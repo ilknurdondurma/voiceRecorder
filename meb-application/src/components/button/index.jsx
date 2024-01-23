@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types"
 import { createElement } from "react";
-
+import { BsSendFill } from "react-icons/bs";
 export default function Button({ variant,size,children,as,className,onClick, ...props }) {
   return createElement(as, {
     ...props,
@@ -14,9 +14,9 @@ export default function Button({ variant,size,children,as,className,onClick, ...
             "bg-white text-black   shadow-sm shadow-primary   " : variant === 'PrimaryOutline',
             "bg-transparent text-secondary border border-1 shadow-sm shadow-secondary hover:shadow-secondary hover:shadow-md": variant ==='SecondaryOutline',
 
-            "bg-transparent ": variant === 'LikeButton',
-            "bg-transparent text-black hover:shadow-lg": variant === 'TransparentButton',
-            "bg-red-500 text-white": variant ==='DeleteButton',
+            "bg-green-400   text-white   shadow-indigo-500/50": variant === 'GreenButton',
+            "bg-yellow-400   text-white   shadow-indigo-500/50": variant === 'YellowButton',
+
             
 
             "px-6 font-medium h-buttons-large text-lg": size === 'large',
@@ -33,7 +33,7 @@ export default function Button({ variant,size,children,as,className,onClick, ...
 
 Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-  variant: PropTypes.oneOf(['Primary','PrimaryOutline', 'Secondary', 'SecondaryOutline', 'TransparentButton', 'LikeButton','DeleteButton']),
+  variant: PropTypes.oneOf(['Primary','PrimaryOutline', 'Secondary', 'SecondaryOutline', 'GreenButton','YellowButton']),
   size: PropTypes.oneOf(['xsmall','normal', 'small', 'large']),
   as: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   props: PropTypes.object,

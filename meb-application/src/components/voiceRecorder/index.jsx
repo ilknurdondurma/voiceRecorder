@@ -1,7 +1,10 @@
 import axios from "axios";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import { BiSolidMicrophone, BiStop } from "react-icons/bi";
-
+import Button from '../../components/button/index'
+import { BsSendFill } from "react-icons/bs";
+import { FaCaretRight } from "react-icons/fa";
+import { FaHeadphonesAlt } from "react-icons/fa";
 const SoundRecorder = () => {
     const [mediaStream, setMediaStream] = useState(null);
     const [audioContext, setAudioContext] = useState(null);
@@ -10,9 +13,8 @@ const SoundRecorder = () => {
     const [listening, setListening] = useState(false);
     const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(false);
-    const [loading, setLoading] = useState(false)
-    const [text, setText] = useState([]);
-    const [voice, setVoice] = useState([]);
+    const [recorder, setRecorder] = useState(null);
+    const [buttonText, setButtonText] = useState('Kaydı Başlat');
 
 
     const startTimer = () => {
@@ -43,10 +45,6 @@ const SoundRecorder = () => {
     }, [isActive]);
 
     const startRecording = async () => {
-        if (seconds >= 60) {
-            return false;
-        }
-
         setListening(true);
         startTimer();
 
@@ -60,27 +58,28 @@ const SoundRecorder = () => {
             const mic = context.createMediaStreamSource(stream);
             setMicrophone(mic);
 
-            const recorder = new MediaRecorder(stream);
+            const newRecorder = new MediaRecorder(stream);
+            setRecorder(newRecorder);
+
             const chunks = [];
 
-            recorder.ondataavailable = function (event) {
+            newRecorder.ondataavailable = function (event) {
                 if (event.data.size > 0) {
                     chunks.push(event.data);
                 }
             };
 
-            recorder.onstop = function () {
+            newRecorder.onstop = function () {
                 const blob = new Blob(chunks, { type: 'audio/wav; codecs=opus' });
                 chunks.length = 0;
                 const url = URL.createObjectURL(blob);
                 setAudioUrl(url);
-                sendAudioToAPI(blob)
                 setListening(false);
                 stopTimer();
-                console.log("stoped")
+                console.log("stoped");
             };
 
-            recorder.start();
+            newRecorder.start();
         } catch (error) {
             setListening(false);
             stopTimer();
@@ -88,39 +87,60 @@ const SoundRecorder = () => {
         }
     };
 
-    const stopRecording = () => {
-        if (mediaStream) {
-            mediaStream.getTracks().forEach(track => {
-                track.stop();
-            });
+    const pauseRecording = () => {
+        if (recorder && recorder.state === 'recording') {
+            recorder.pause();
+            stopTimer();
         }
-        if (audioContext) {
-            audioContext.close();
-        }
-        setListening(false);
     };
-    const sendAudioToAPI = (audioBlob) => {
-      const API_ENDPOINT = `${process.env.REACT_APP_API_URL}/asr`
-      const formData = new FormData();
-      formData.append("audio", audioBlob, 'recorded.wav');
-      formData.append('token',localStorage.getItem('_token'))
-      setLoading(true)
-      console.log(audioBlob)
-      axios.post(API_ENDPOINT, formData)
-          .then(data => {
-              console.log("API cevabı:", data);
-              if (data?.message !== "Internal Server Error") {
-                  console.log(data.message)
-                  setText((texts) => [...texts, data.data.message]);
-                  setVoice((voice) => [...voice, data.data.filename])
-              }
-              setLoading(false)
-          })
-          .catch(error => {
-              console.error("API hatası:", error);
-              setLoading(false)
-          });
 
+    const resumeRecording = () => {
+        if (recorder && recorder.state === 'paused') {
+            recorder.resume();
+            startTimer();
+        }
+    };
+
+    const stopRecording = () => {
+    if (mediaStream) {
+        mediaStream.getTracks().forEach(track => {
+            track.stop();
+        });
+    }
+
+    if (audioContext && audioContext.state !== 'closed') {
+        audioContext.close();
+    }
+
+    if (recorder && (recorder.state === 'recording' || recorder.state === 'paused')) {
+        recorder.stop();
+    }
+
+    setListening(false);
+};
+
+    // const sendAudioToAPI = (audioBlob) => {
+    //   const API_ENDPOINT = `${process.env.REACT_APP_API_URL}/asr`
+    //   const formData = new FormData();
+    //   formData.append("audio", audioBlob, 'recorded.wav');
+    //   formData.append('token',localStorage.getItem('_token'))
+    //   setLoading(true)
+    //   console.log(audioBlob)
+    //   axios.post(API_ENDPOINT, formData)
+    //       .then(data => {
+    //           console.log("API cevabı:", data);
+    //           if (data?.message !== "Internal Server Error") {
+    //               console.log(data.message)
+    //               setText((texts) => [...texts, data.data.message]);
+    //               setVoice((voice) => [...voice, data.data.filename])
+    //           }
+    //           setLoading(false)
+    //       })
+    //       .catch(error => {
+    //           console.error("API hatası:", error);
+    //           setLoading(false)
+    //       });
+//---------------------------------------------------
       // fetch(API_ENDPOINT, {
       //     method: 'POST',
       //     body: formData
@@ -138,29 +158,25 @@ const SoundRecorder = () => {
       //         console.error("API hatası:", error);
       //         setLoading(false)
       //     });
-  };
+  //       };
     return (
         <div className="w-full h-full flex flex-col">
-            <div className="flex md:flex-row flex-col items-center justify-center md:space-x-2 space-x-0 space-y-5 md:space-y-0 mt-1">
-                <button
-                    onClick={() => {
-                        if (listening === true) {
-                            stopRecording();
-                        } else {
-                            startRecording();
-                        }
-                    }}
-                >
-                    {listening ? <BiStop className="mr-3" /> : <BiSolidMicrophone className="mr-3" />}
-                    {listening ? 'Dinlemeyi Durdur' : 'Dinlemeyi Başlat'}
-                </button>
+        <div className="flex flex-col items-center justify-center gap-4 ">
+            <div className="flex">
+                <span className="flex justify-center border-2 p-2 cursor-pointer" onClick={startRecording}><BiSolidMicrophone className="mr-3" />Başlat</span>
+                <span className="flex justify-center border-2 p-2 cursor-pointer" onClick={pauseRecording}><BiStop className="mr-3" /> Beklet</span>
+                {listening && recorder && recorder.state === 'paused' && (
+                    <span className="flex justify-center border-2 p-2 cursor-pointer" onClick={resumeRecording}>
+                        <FaCaretRight className="mr-3" /> Devam 
+                    </span>
+                )}
+                <span className="flex justify-center border-2 p-2 cursor-pointer" onClick={stopRecording}><FaHeadphonesAlt className="mr-3" onClick={resumeRecording} />Bitir </span>
             </div>
-            <audio src={audioUrl} controls className="w-full" />
-
-            {listening && seconds >= 60 && (
-                <div className="text-red-500 mt-2">Maksimum kayıt süresi (60 saniye) aşıldı.</div>
-            )}
+            <Button variant="GreenButton" onClick={stopRecording}> Gönder</Button>
         </div>
+        <audio src={audioUrl} controls className="w-full" />
+       
+    </div>
     );
 };
 

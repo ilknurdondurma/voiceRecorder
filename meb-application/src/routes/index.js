@@ -5,6 +5,7 @@ import Okumalar from "../pages/okumalar";
 import Skor from "../pages/skor";
 import YeniOkuma from "../pages/yeni-okuma";
 import Rapor from "../pages/rapor";
+import VoiceRecord from "../pages/voice-record";
 
 const routes = createBrowserRouter([
     {
@@ -33,6 +34,15 @@ const routes = createBrowserRouter([
                 children:[
                     {
                         path:"/rapor/:id" , element:<Rapor/>
+                    },
+                ]
+            },
+            {
+                path: '/voice-record',
+                element: <VoiceRecord/>,
+                children:[
+                    {
+                        path:"/voice-record/:id" , element:<VoiceRecord/>
                     },
                 ]
             },
