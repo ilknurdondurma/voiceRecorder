@@ -7,6 +7,8 @@ import YeniOkuma from "../pages/yeni-okuma";
 import Rapor from "../pages/rapor";
 import VoiceRecord from "../pages/voice-record";
 import Okuma from "../pages/okuma";
+import Login from "../pages/login";
+import AuthLayout from "../layouts/web/auth";
 
 const routes = createBrowserRouter([
     {
@@ -58,6 +60,19 @@ const routes = createBrowserRouter([
           
             
         ]
-    },])
+
+        
+    },
+    {
+        path:'/login',
+        element:<AuthLayout/>,
+        children:[
+            {
+                index:true,
+                element : <Login />
+            }
+        ]
+    }
+])
 
     export default routes

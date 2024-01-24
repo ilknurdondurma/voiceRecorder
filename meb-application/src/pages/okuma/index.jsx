@@ -1,5 +1,4 @@
 import React from 'react'
-import SoundRecorder from '../../components/voiceRecorder/index'
 function Okuma() {
     const textHeader="Kırmızı Başlıklı Kız"
 
@@ -18,7 +17,7 @@ function Okuma() {
             <div className='flex flex-col justify-center'>
                 <h1 className='text-xl my-3  flex justify-center'>Orijinal Metin</h1>
                 <textarea
-                className='border-2 p-5 text-xl my-5 mb-10 rounded-xl'
+                className='border-2 p-8 text-xl my-5 mb-10 rounded-xl'
                 
                 value={oijinalText}
                 rows={10} // İstersen satır sayısını belirleyebilirsin
@@ -30,7 +29,7 @@ function Okuma() {
             <div  className='flex flex-col justify-center'>
                 <h1 className='text-xl my-3  flex justify-center'>Okunan Metin</h1>
                 <textarea
-                className='border-2 p-5 text-xl my-5 mb-10 rounded-xl'
+                className='border-2 p-8 text-xl my-5 mb-10 rounded-xl'
                 
                 value={studentText}
                 rows={10} // İstersen satır sayısını belirleyebilirsin
@@ -44,8 +43,8 @@ function Okuma() {
             <div className='flex flex-col justify-center'>
                 <h1 className='text-xl my-3 self-center'>Farklılıklar Listesi</h1>
                 <div className='grid grid-cols-4 sm:grid-cols-2 gap-4'>
-                    {different.map((diff)=>(
-                        <div  className='self-center bg-white p-5 m-3 text-primary w-full rounded-2xl underline'>{diff}</div>
+                    {different.map((diff,index=0)=>(
+                        <div  className='self-center bg-white p-5 m-3 text-primary w-full rounded-2xl text-xl font-thin border-gray-300 border-2'>{index} {diff}</div>
                     ))}
                 </div>
             </div>

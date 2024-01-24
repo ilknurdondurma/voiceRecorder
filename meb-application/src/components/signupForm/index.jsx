@@ -4,7 +4,6 @@ import Button from '../../components/button';
 import { Form, Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import CheckBox from '../Input/checkbox';
-import {signUp} from '../../api';
 import DropDown from '../Input/dropdown';
 import { signupSchema } from '../../validation/auth/signup';
 import {cities , districts} from '../../helper/locationData'
@@ -26,29 +25,11 @@ export default function SignupForm(){
         "name": values?.name,
         "surname": values?.surname,
         "rating":5,
-        "userType": "Kiracı",
+        "userType": "Admin",
         "city": values?.city,
         "district": values.district,
       }
 
-      // API e GÖNDER 
-    signUp(user)
-      .then(data => {
-        console.log(data);
-
-        // Başarılı giriş durumunda yönlendir
-        if (data.status === 200) {
-          succesMessage("Kayıt başarılı girişe yönlendiriliyorsunuz...")
-          setTimeout(() => {
-            navigate("/login",{replace:true});
-          }, 2000);
-        }
-      })
-      .catch(error => {
-        console.error("Sign-up error:", error);
-        errorMessage(error.response.data.error);
-        setSubmitting(false);
-      });
   }
     return (
       <div className='signupForm flex justify-center p-5 sm:p-2 mt-5 '>

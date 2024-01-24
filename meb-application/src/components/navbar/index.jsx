@@ -8,12 +8,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { IoMdLogOut } from "react-icons/io";
 function Navbar(){
     const backgroundImageUrl = '/header-bg.png';
-    const yuzuncuyilLogoUrl = '/logo-100yil.png';
+    const yuzuncuyilLogoUrl = '/turkiye-yuzyili.png';
     const atatürkLogoUrl = '/header-bayrak-ataturk.png';
     const meblogo = '/meblogo.png';
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
-    const user="İLKNUR DONDURMA"
+    const formDataObject = JSON.parse(localStorage.getItem('formData'));
+    const user=formDataObject?.name;
     const navigate=useNavigate();
 
     const toggleSidebar = () => {
@@ -25,6 +26,10 @@ function Navbar(){
     }
     const goHomeHandle =()=>{
         navigate('/')
+    }
+    const logoutHandle=()=>{
+        localStorage.removeItem('formData');
+        navigate('/login',{replace:false})
     }
     const sidebarElements = [
         {
@@ -54,7 +59,7 @@ function Navbar(){
                         <GiHamburgerMenu color='white' size="30px"/>
                     </span>
                     <div className='flex self-center'>
-                        <span className='w-14 h-14 mx-2 sm:hidden'  style={{
+                        <span className='w-32 h-16 mx-2 sm:hidden'  style={{
                                 backgroundImage: `url(${yuzuncuyilLogoUrl})`,
                                 backgroundSize: 'cover',
                                 }}>
@@ -81,8 +86,8 @@ function Navbar(){
                         <span className='p-1'> T.C MİLLİ EĞİTİM <br></br> BAKANLIĞI</span>
                     </div>
                     
-                    <span className='flex self-center'onClick={toggleUser}>
-                        <span className='text-center sm:text-sm px-2'><PiStudentFill color='white' size="20px" /></span>
+                    <span className='flex self-center cursor-pointer bg-tertiary md:bg-transparent sm:bg-transparent lg:bg-transparent xl:text-black 2xl:text-black'onClick={toggleUser}>
+                        <span className='text-center sm:text-sm px-2'><PiStudentFill color='black' size="20px" /></span>
                         <span className='hover:underline text-center sm:text-sm md:text-sm' >{user}</span>
                     </span>
                 </span>
@@ -106,13 +111,13 @@ function Navbar(){
             <div className=' bg-primary fixed top-24 right-0 z-10  h-auto'>
                 {userMenuOpen && (
                     <NavLink  to={'/login'} activeClassName="bg-primary text-white">
-                    <div className='flex  m-2 p-2 cursor-pointer hover:bg-primary text-white hover:text-white  rounded-md '>
+                    <div className='flex  m-2 p-2 cursor-pointer hover:bg-primary text-white hover:text-white  rounded-md ' onClick={logoutHandle}>
                       <div className='mr-2'><IoMdLogOut size="20px" color='white'/></div>
                       <div>Çıkış Yap</div>
                     </div>
                      </NavLink>
             )}
-            </div>s
+            </div>
         </div>
     );
 }

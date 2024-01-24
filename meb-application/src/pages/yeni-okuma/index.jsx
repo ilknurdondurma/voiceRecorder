@@ -115,7 +115,7 @@ function YeniOkuma({ selectedClassLevel=3}) {
 
 
 
-  const colorPalette = ['#e0fbfc', '#d8e2dc', '#ffe5d9', '#c4e17f', '#f9ebae']; // Soft renk paleti
+  const colorPalette = ['#e0fbfc', '#d8e2dc', '#ffe5d9', '#c4e17f', '#f9ebae','#f6daf0','#ffc2b8','#b8f5ff']; // Soft renk paleti
   let colorIndex = 0;
   const getRandomColor = () => {
     const currentColor = colorPalette[colorIndex];
@@ -130,7 +130,7 @@ function YeniOkuma({ selectedClassLevel=3}) {
       <div className='grid 2xl:grid-cols-5 grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 m-5 '>
         {filteredTexts.map((text) => (
           <Link to={`/voice-record/${text.Id}`}>
-            <div key={text.Id} className="flex flex-col justify-center w-40 h-40 md:w-36 md:h-36 sm:w-28 sm:h-28 text-center border-2 rounded-md mx-2 overflow-hidden hover:underline"style={{backgroundColor: getRandomColor(),}}>
+            <div key={text.Id} className="flex flex-col justify-center w-52 h-40 md:w-40 md:h-36 sm:w-32 sm:h-28 text-center border-2 rounded-md mx-2 overflow-hidden hover:underline hover:border-black  "style={{backgroundColor: getRandomColor(),}}>
               <h3>{text.header}</h3>
             </div>
           </Link>

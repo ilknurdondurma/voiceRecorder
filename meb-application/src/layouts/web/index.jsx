@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from '../../components/navbar/index'
 import Sidebar from '../../components/sidebar/index'
-export default function WebLayout({children}) {
+export default  function WebLayout({children}) {
 
 	return (
 		<div className="bg-secondary">

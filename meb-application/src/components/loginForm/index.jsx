@@ -1,102 +1,110 @@
 import React, { useState } from 'react'
 import Input from '../../components/Input/text';
 import Button from '../../components/button';
+import DropDown from '../Input/dropdown/index'
 import { Form, Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CheckBox from '../Input/checkbox';
-import { login } from '../../api';
 import { loginSchema } from '../../validation/auth/login';
 import errorMessage from '../../helper/toasts/errorMessage'
-import { useAuth } from '../../context/authContext/authContext';
+//import { useAuth } from '../../context/authContext/authContext';
 
 export default function LoginForm(){
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const {setUser}=useAuth();
+ // const {setUser}=useAuth();
+ const classLevel = [
+  { value: 1, label: "1. Sınıf "},
+  { value: 2, label: "2. Sınıf" },
+  { value: 3, label: "3. Sınıf" },
+  { value: 4, label: "4. Sınıf" },
+];
+const userRole = [
+  { value: "admin", label: "Admin"},
+  { value: "student", label: "Öğrenci" },
+  { value: "teacher", label: "Öğretim Görevlisi" },
+];
 
 
+const handleSubmit = (values, setSubmitting) => {
+  console.log(values);
 
-  const handleSubmit=(values,setSubmitting )=>{
-    //console.log(values);
+  // Create FormData object and append form values
+  const formData = new FormData();
+  formData.append("name", values?.name);
+  formData.append("class", values?.class);
+  formData.append("age", values?.age);
+  formData.append("userRole", values?.userRole);
 
-    const formData = new FormData();
-    formData.append("email", values?.email);
-    formData.append("pass", values?.password);
+  // Convert FormData to object for easier storage
+  const formDataObject = {};
+  formData.forEach((value, key) => {
+      formDataObject[key] = value;
+  });
 
-    login(formData)
-    .then(async response => {
-      console.log("API cevabı: ", response);
+  // Save form data in localStorage
+  localStorage.setItem("formData", JSON.stringify(formDataObject));
+  navigate('/');
 
-      // Check if the response contains the expected data
-      if (response && response.data && response.status === 200) {
-        const responseData = response.data;
-        console.log("response: "+responseData)        
-        setSubmitting(false);
-        await setUser({
-          id:responseData.data.id,
-          id:responseData.data.id,
-          name:responseData.data.name,
-          surname:responseData.data.surname,
-          city:responseData.data.city,
-          token:responseData.data.token,
-        })
-        setTimeout(() => {
-          navigate("/",{replace:true});
-        }, 2000);
-        
-        
-      } 
-      else {
-        console.error("Invalid API response format");
-      }
-    })
-    .catch(error => {
-      console.error("Sign-up error:", error);
-      errorMessage("şifre veya emaili kontrol et bakim")
-      setSubmitting(false);
-      setIsLoading(false);
-    })
-     
-
-  };
+};
     return (
-        <div className='loginForm flex justify-center p-5 sm:p-2 mt-5'>
-          <div className='flex justify-center text-center border rounded-2xl bg-my_border_color/60 w-1/2 sm:w-3/4'>
-            <div className='w-full xl:w-1/2 2xl:w-1/2 p-5'>
+        <div className='flex justify-center p-5 sm:p-2 my-5' >
+          <div className='flex justify-center text-center rounded-2xl bg-white w-1/2 sm:w-full h-auto self-center border-4 border-gray-300'>
+            <div className='w-1/2 md:w-full sm:w-full p-5'>
               <Formik
               validationSchema={loginSchema}
                 initialValues={{
-                  email:"",
-                  password:"",
-                  remember:""
+                  name:"",
+                  class:"",
+                  age:"",
+                  userRole:"",
                 }}
                   onSubmit={(values,{ setSubmitting }) => {
-                    setIsLoading(true);
                     handleSubmit(values,setSubmitting)
                   }}>
           {({ setFieldValue,isSubmitting}) => (
                   <Form>
-                    <label className="font-bold text-2xl sm:text-md ">Giriş Yap</label>
-                    
-                    <Input className="sm:text-xs" name="email" placeholder="ornek@gmail.com"/>
-                    <Input className="sm:text-xs relative" name="password" type="password" placeholder="*********" />
-                    <CheckBox className="line-clamp-1" name="remember" value="remember" label="Beni Hatırla"/>
-                    <Button
-                      className={`w-full rounded-2xl m-2 sm:text-xs ${{isLoading} ? '' : 'opacity-50'} `}
-                      type="submit"
-                      variant="Purple"
-                      
-                    >
-                      {isLoading ? "Giriş Yapılıyor..." : "Giriş"}
-                    </Button>
-                    <p className='text-black/50 mt-5'>--- or ---</p>
-                    <Button className="w-full rounded-2xl bg-white m-2 sm:text-xs" variant="TransparentButton" onClick={() =>console.log("Button clicked")}> Google ile oturum açın</Button>
-                    <Button className="w-full rounded-2xl bg-white m-2 sm:text-xs mb-10" variant="TransparentButton" onClick={() =>console.log("Button clicked")}> Apple ile giriş yap</Button>
-                    <Button className="w-full rounded-2xl bg-transparent  border-4 m-2 sm:text-xs" variant="TransparentButton" onClick={() =>console.log("Button clicked")}> Şifreni mi unuttun ? </Button>
-                    <p className='mt-2'>Henüz bir hesabın yok mu?<a href='/signup' className='font-bold text-blue-600'>Kaydol</a></p>
-                  </Form>
+                    <div className='my-10'>
+                        <label className="font-bold text-2xl sm:text-md">Giriş Yap</label>
+                        <Input className="sm:text-xs my-3" name="name" placeholder="İsim Soyisim"/>
+                        <div className='flex sm:grid sm:grid-cols-1 gap-4'>
+                          <DropDown
+                            placeholder="Sınıf"
+                            className="my-3"
+                            name="class"
+                            options={classLevel}
+                            onChange={(selectedValue) => {
+                              console.log("Seçilen değer:", selectedValue);
+                              setFieldValue("class", selectedValue);
+                              
+                          }}
+                          />
+                          <Input type="number" className="sm:text-xs my-3" name="age" placeholder="Yaşınız"/>
+                        </div>
+                        <DropDown
+                            placeholder="Kullanıcı Rolü"
+                            className="my-3"
+                            name="userRole"
+                            options={userRole}
+                            onChange={(selectedValue) => {
+                              console.log("Seçilen değer:", selectedValue);
+                              setFieldValue("userRole", selectedValue);
+                              
+                          }}
+                          />
+                  
+                        <Button
+                          className="w-full rounded-xl m-2 sm:text-xs my-5 hover:bg-black hover:text-white"
+                          type="submit"
+                          variant="Primary"
+                          size="large"
+                          
+                        >
+                          Giriş Yap
+                        </Button>
+                    </div>
+               </Form>
           )}
                 </Formik>
             </div>

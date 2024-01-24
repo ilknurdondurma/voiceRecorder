@@ -5,9 +5,14 @@ import Button from '../../components/button/index'
 import { BsSendFill } from "react-icons/bs";
 import { FaCaretRight } from "react-icons/fa";
 import { FaHeadphonesAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
+
 const SoundRecorder = () => {
     const [mediaStream, setMediaStream] = useState(null);
     const [audioContext, setAudioContext] = useState(null);
+    const [text, setText] = useState([]);
+    const [voice, setVoice] = useState([]);
     const [microphone, setMicrophone] = useState(null);
     const [audioUrl, setAudioUrl] = useState(null);
     const [listening, setListening] = useState(false);
@@ -15,7 +20,10 @@ const SoundRecorder = () => {
     const [isActive, setIsActive] = useState(false);
     const [recorder, setRecorder] = useState(null);
     const [buttonText, setButtonText] = useState('Kaydı Başlat');
+    const [loading, setLoading] = useState(false)
+    const id=1                                                      // text id
 
+    const navigate=useNavigate();
 
     const startTimer = () => {
         setIsActive(true);
@@ -140,6 +148,7 @@ const SoundRecorder = () => {
     //           console.error("API hatası:", error);
     //           setLoading(false)
     //       });
+    //       }
 //---------------------------------------------------
       // fetch(API_ENDPOINT, {
       //     method: 'POST',
@@ -162,19 +171,18 @@ const SoundRecorder = () => {
     return (
         <div className="w-full h-full flex flex-col">
         <div className="flex flex-col items-center justify-center gap-4 ">
-            <div className="flex">
-                <span className="flex justify-center border-2 p-2 cursor-pointer" onClick={startRecording}><BiSolidMicrophone className="mr-3" />Başlat</span>
-                <span className="flex justify-center border-2 p-2 cursor-pointer" onClick={pauseRecording}><BiStop className="mr-3" /> Beklet</span>
+            <div className="flex gap-4">
+                <span className="flex justify-center border-2 border-gray-400 p-3 rounded-xl cursor-pointer" onClick={startRecording}><BiSolidMicrophone className="mr-3" />{recorder && recorder.state === 'recording' ?"Başladı..":"Başlat"}</span>
+                <span className="flex justify-center border-2 border-gray-400 p-3 rounded-xl cursor-pointer bg-red-50" onClick={pauseRecording}><BiStop className="mr-3" /> {recorder && recorder.state === 'paused'? "Bekliyor..":"Beklet"}</span>
                 {listening && recorder && recorder.state === 'paused' && (
-                    <span className="flex justify-center border-2 p-2 cursor-pointer" onClick={resumeRecording}>
-                        <FaCaretRight className="mr-3" /> Devam 
-                    </span>
+                    <span className="flex justify-center border-2 border-gray-400 p-3 rounded-xl cursor-pointer" onClick={resumeRecording}><FaCaretRight className="mr-3" /> Devam </span>
                 )}
-                <span className="flex justify-center border-2 p-2 cursor-pointer" onClick={stopRecording}><FaHeadphonesAlt className="mr-3" onClick={resumeRecording} />Bitir </span>
+                <span className="flex justify-center border-2 border-gray-400 py-3 px-4 rounded-xl cursor-pointer" onClick={stopRecording}><FaHeadphonesAlt className="mr-3" onClick={resumeRecording} />Bitir </span>
             </div>
-            <Button variant="GreenButton" onClick={stopRecording}> Gönder</Button>
+            <audio src={audioUrl} controls className="w-full" />
+            <Button className="m-3 p-4 rounded-xl cursor-pointer" variant="GreenButton" size="large" onClick={()=>{ navigate(`/rapor/${id}`)}}> Gönder</Button>
         </div>
-        <audio src={audioUrl} controls className="w-full" />
+        
        
     </div>
     );

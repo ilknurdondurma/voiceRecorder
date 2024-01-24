@@ -7,9 +7,10 @@ module.exports = {
     
     extend: {
       colors: {
-        primary:'#d2392e',//green
-        secondary:'#f8fafc',//purple
-        tertiary:"#fff5ee",
+        primary:'#d2392e',//kırmızı
+        secondary:'#f8fafc',//arkaplan
+        tertiary:"#f5e3cd",//krem
+
         
         text_primary:"#52525b", //text-zinc-[600]
         text_secondary:"#00ce98",// green
