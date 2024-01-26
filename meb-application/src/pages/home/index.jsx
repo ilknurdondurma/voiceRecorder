@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import PieChart from '../../components/charts';
 
 function Home() {
   const formDataObject = JSON.parse(localStorage.getItem('formData'));
