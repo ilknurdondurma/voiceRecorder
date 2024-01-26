@@ -9,8 +9,8 @@ module.exports = {
       colors: {
         primary:'#d2392e',//kırmızı
         secondary:'#f8fafc',//arkaplan
-        tertiary:"#f5e3cd",//krem
-
+        tertiary:"#9ca3af",//gri gray-300
+        quaternary:"#6b7280", // koyu gri gray 400
         
         text_primary:"#52525b", //text-zinc-[600]
         text_secondary:"#00ce98",// green

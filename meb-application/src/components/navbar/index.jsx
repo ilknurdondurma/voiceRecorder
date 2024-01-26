@@ -86,7 +86,7 @@ function Navbar(){
                         <span className='p-1'> T.C MİLLİ EĞİTİM <br></br> BAKANLIĞI</span>
                     </div>
                     
-                    <span className='flex self-center cursor-pointer bg-tertiary md:bg-transparent sm:bg-transparent lg:bg-transparent xl:text-black 2xl:text-black'onClick={toggleUser}>
+                    <span className='flex self-center cursor-pointer  md:bg-transparent sm:bg-transparent lg:bg-transparent xl:text-black 2xl:text-black'onClick={toggleUser}>
                         <span className='text-center sm:text-sm px-2'><PiStudentFill color='black' size="20px" /></span>
                         <span className='hover:underline text-center sm:text-sm md:text-sm' >{user}</span>
                     </span>
