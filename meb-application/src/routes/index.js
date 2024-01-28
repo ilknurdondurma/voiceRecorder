@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import WebLayout from '../layouts/web/index'
 import  Home from '../pages/home'
 import Okumalar from "../pages/okumalar";
@@ -18,7 +18,7 @@ const routes = createBrowserRouter([
         children:[
             {
                 index:true,
-                element: <Home/>
+                element: <Navigate to="/skorlarim" />
             },
             {
                 path: '/skorlarim',

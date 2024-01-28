@@ -14,7 +14,7 @@ function Navbar(){
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const formDataObject = JSON.parse(localStorage.getItem('user'));
-    const user=formDataObject?.username;
+    const [user, setUser] = useState(formDataObject?.username);
     const navigate=useNavigate();
 
     const toggleSidebar = () => {
@@ -53,8 +53,18 @@ function Navbar(){
         },
       ];
 
-    useEffect(() => {
-}, [user])
+      useEffect(() => {
+        window.addEventListener('storage', handleStorageChange);
+    
+        return () => {
+          window.removeEventListener('storage', handleStorageChange);
+        };
+      }, []);
+    
+      const handleStorageChange = () => {
+        const updatedUser = JSON.parse(localStorage.getItem('user'))?.username;
+        setUser(updatedUser);
+      };
     return(
         <div className='w-full h-auto mb-28 flex flex-col justify-center' >
             <div className='w-full h-24 fixed top-0 left-0 z-10 justify-center rounded-lg border-b-2 mb-24' style={{backgroundImage: `url(${backgroundImageUrl})`,backgroundSize: 'cover',}}>

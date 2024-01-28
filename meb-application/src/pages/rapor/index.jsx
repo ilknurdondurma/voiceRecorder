@@ -103,18 +103,18 @@ function Rapor() {
                   </div>
                   {reportBilgileri.map((bilgi, index) => (
                       <div key={index} className={`flex px-5 py-5 border-b-2 overflow-hidden `} style={{ backgroundColor: bilgi.color }}>
-                        <div className='p-1'>{bilgi.icon}</div>
-                        <div className='p-1 font-bold'>{bilgi.label} :  </div>
-                        <div className='p-1 text-primary '>
-                          {bilgi.key === 'repeatedWords' ? (
-                            report[bilgi.key].join('\t ')
-                          ) : (
-                            report?.[bilgi.key]
-                          )}
-                        </div>
-                        <div className='p-1'>{bilgi.unit}</div>
+                          <div className='p-1'>{bilgi.icon}</div>
+                          <div className='p-1 font-bold'>{bilgi.label} :  </div>
+                          <div className='p-1 text-primary '>
+                              {bilgi.key === 'repeatedWords' ? (
+                                  report?.[bilgi.key]?.join('\t ') // Check if repeatedWords is defined before using join
+                              ) : (
+                                  report?.[bilgi.key]
+                              )}
+                          </div>
+                          <div className='p-1'>{bilgi.unit}</div>
                       </div>
-                    ))}
+                  ))}
               </div>
             </div>
         

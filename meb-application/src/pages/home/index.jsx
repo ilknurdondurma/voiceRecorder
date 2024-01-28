@@ -28,15 +28,7 @@ function Home() {
         <div className='w-full  flex flex-col justify-center '>
           <h1 className='font-bold my-5'>Anasayfa</h1>
                Hoşgeldiniz! {user}
-               <Button 
-                className={`m-3 p-4 rounded-xl cursor-pointer ${loading ?'opacity-50':''}`}
-               // disabled={showAudio}
-                variant="GreenButton"
-                size="large"
-                onClick={spinn}
-                >
-                {loading ? <Spin /> : 'Gönder'}
-            </Button>
+               
         </div>
 
     </div>
