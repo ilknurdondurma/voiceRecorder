@@ -9,6 +9,7 @@ import VoiceRecord from "../pages/voice-record";
 import Okuma from "../pages/okuma";
 import Login from "../pages/login";
 import AuthLayout from "../layouts/web/auth";
+import SignUp from "../pages/signUp";
 
 const routes = createBrowserRouter([
     {
@@ -64,14 +65,20 @@ const routes = createBrowserRouter([
         
     },
     {
-        path:'/login',
+        path:'/',
         element:<AuthLayout/>,
         children:[
             {
-                index:true,
+                path:'/login',
                 element : <Login />
+            },
+            {
+                path:'/signup',
+                element : <SignUp />
             }
-        ]
+            
+        ],
+        
     }
 ])
 

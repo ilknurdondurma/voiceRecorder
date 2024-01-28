@@ -3,14 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import PieChart from '../../components/charts';
 
 function Home() {
-  const formDataObject = JSON.parse(localStorage.getItem('formData'));
-  const user=formDataObject?.name;
+  const formDataObject = JSON.parse(localStorage.getItem('user'));
+  const user=formDataObject?.username;
+  const token = JSON.parse(localStorage.getItem('token'));
   const navigate=useNavigate();
   useEffect(() => {
-    if(user==null){
+    if(token==null){
       navigate('/login', {replace:true})
     }
-  }, [user])
+  }, [token])
   
   return (
     <div className='w-full flex justify-center'>

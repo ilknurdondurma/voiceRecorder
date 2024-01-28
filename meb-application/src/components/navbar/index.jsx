@@ -13,8 +13,8 @@ function Navbar(){
     const meblogo = '/meblogo.png';
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
-    const formDataObject = JSON.parse(localStorage.getItem('formData'));
-    const user=formDataObject?.name;
+    const formDataObject = JSON.parse(localStorage.getItem('user'));
+    const user=formDataObject?.username;
     const navigate=useNavigate();
 
     const toggleSidebar = () => {
@@ -28,7 +28,8 @@ function Navbar(){
         navigate('/')
     }
     const logoutHandle=()=>{
-        localStorage.removeItem('formData');
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
         navigate('/login',{replace:false})
     }
     const sidebarElements = [

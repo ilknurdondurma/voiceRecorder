@@ -2,6 +2,7 @@
   "name": "meb-application",
   "version": "0.1.0",
   "private": true,
+  "proxy":"http://192.168.1.106:8083",
   "dependencies": {
     "@tanstack/react-query": "^5.0.5",
     "@testing-library/jest-dom": "^5.17.0",

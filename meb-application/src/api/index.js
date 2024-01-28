@@ -1,10 +1,9 @@
 import axios from "axios";
 
-const API=axios.create()
+const API=axios.create({baseURL:'http://192.168.1.106:8083/api/v2'})
 
 
-const storedUser = JSON.parse(localStorage.getItem('formData'));
-const token = storedUser ? storedUser.token : null;
+const token = JSON.parse(localStorage.getItem('token'));
 
 
 API.interceptors.request.use(
@@ -21,10 +20,12 @@ API.interceptors.request.use(
 );
 
 //user
-export const login = (formdata) => API.post('/User/login', formdata)
-//product
-export const getAll = (userId) => API.get(`//${userId}`)
-export const getById = (id) => API.get(`//${id}`)
+export const signUp = (user) => API.post('/Auth/SignUp', user)
+export const login = (user) => API.post('/Auth/Login', user)
+
+//text
+export const getAllText = () => API.get('/Text')
+export const getTextById = (id) => API.get(`/Text/${id}`)
 
 export const add = (product) => API.post(`//`,product, {headers: {'Content-Type':'multipart/form-data'}})
 

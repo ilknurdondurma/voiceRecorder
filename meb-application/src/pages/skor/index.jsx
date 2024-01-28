@@ -1,9 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CiAlignTop } from "react-icons/ci";
 import Table from '../../components/table';
 import Button from '../../components/button/index'
-
+import errorMessage from '../../helper/toasts/errorMessage'
+import succesMessage from '../../helper/toasts/successMessage'
+import { getAllText } from '../../api';
+import { useNavigate } from 'react-router-dom';
 function Skor() {
+  const [tableDataa,setTableDataa]=useState([]);
+  const token = JSON.parse(localStorage.getItem('token'));
+  const navigate=useNavigate();
+  useEffect(() => {
+    if(token==null){
+      navigate('/login', {replace:true})
+    }
+  }, [token])
+  useEffect(() => {
+
+    if(token==null){
+      navigate('/login', {replace:true})
+    }
+        
+    getAllText()
+      .then((result)=>{
+        setTableDataa(result?.data.data)
+      })
+      .catch((error)=>{
+        console.log(error);
+        errorMessage("Bir hata oluştu")
+
+      })
+  
+    
+  }, []);
   const tableData = [
     {id:1, appName: 'Uygulama 1', appDate: '01.01.2023', correctWords: 150, totalWords: 200, wordRecognition: 75 },
     {id:2, appName: 'Uygulama 2', appDate: '05.15.2023', correctWords: 120, totalWords: 150, wordRecognition: 80 },

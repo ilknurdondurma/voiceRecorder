@@ -1,13 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {BiSolidBookAdd } from "react-icons/bi";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Text, TextHeader } from '../../helper/text/index';
+import { getAllText } from '../../api';
+import errorMessage from '../../helper/toasts/errorMessage'
+import succesMessage from '../../helper/toasts/successMessage'
 
 function YeniOkuma({ selectedClassLevel=3}) {
-  const texts = [
+  const [texts,setTexts]=useState([]);
+  const token = JSON.parse(localStorage.getItem('token'));
+  const navigate=useNavigate();
+
+
+  useEffect(() => {
+    if(token==null){
+      navigate('/login', {replace:true})
+    }
+    getAllText()
+      .then((result)=>{
+        setTexts(result?.data.data)
+      })
+      .catch((error)=>{
+        console.log(error);
+        errorMessage("Bir hata oluştu")
+
+      })
+  
+    
+  }, [token]);
+  const textss = [
     {
       "Id": 1,
-      "header": "Kırmızı Başlıklı Kız",
-      "text": "Hikaye içeriği buraya gelecek...",
+      "header": TextHeader,
+      "text": Text,
       "classLevel": 3,
       "textLevel": 1
     },
@@ -111,7 +136,7 @@ function YeniOkuma({ selectedClassLevel=3}) {
     }
    
   ];
-  const filteredTexts = texts.filter((text) => text.classLevel === selectedClassLevel);
+  const filteredTexts = texts.filter((text) => text.class === selectedClassLevel);
 
 
 
@@ -129,9 +154,9 @@ function YeniOkuma({ selectedClassLevel=3}) {
       <h3 className='border-b-2'>{`${selectedClassLevel}. SINIF İÇİN METİNLER`}</h3>
       <div className='grid 2xl:grid-cols-5 grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 m-5 '>
         {filteredTexts.map((text) => (
-          <Link to={`/voice-record/${text.Id}`}>
-            <div key={text.Id} className="flex flex-col justify-center w-52 h-40 md:w-40 md:h-36 sm:w-32 sm:h-28 text-center border-2 rounded-md mx-2 overflow-hidden hover:underline hover:border-black  "style={{backgroundColor: getRandomColor(),}}>
-              <h3>{text.header}</h3>
+          <Link to={`/voice-record/${text.id}`}>
+            <div key={text.id} className="flex flex-col justify-center w-52 h-40 md:w-40 md:h-36 sm:w-32 sm:h-28 text-center border-2 rounded-md mx-2 overflow-hidden hover:underline hover:border-black  "style={{backgroundColor: getRandomColor(),}}>
+              <h3 className='tracking-[0.1em]'>{text.header}</h3>
             </div>
           </Link>
         ))}

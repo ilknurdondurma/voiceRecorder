@@ -9,14 +9,22 @@ import { GiChoice } from "react-icons/gi";
 import { TiTick } from "react-icons/ti";
 import PieChart from '../../components/charts/index'
 import { IoClose } from "react-icons/io5";
+import { useNavigate } from 'react-router-dom';
 
 function Rapor() {
   const [bugununTarihi, setBugununTarihi] = useState(null);
   const [report, setReport] = useState({});
-  const formDataObject = JSON.parse(localStorage.getItem('formData'));
-  const user = formDataObject?.name;
+  const token = JSON.parse(localStorage.getItem('token'));
+  const formDataObject = JSON.parse(localStorage.getItem('user'));
+  const user=formDataObject?.username;
+  const navigate=useNavigate();
+
 
   useEffect(() => {
+    if(token==null){
+      navigate('/login', {replace:true})
+    }
+
     const bugun = new Date();
     const gun = bugun.getDate();
     const ay = bugun.getMonth() + 1; // Aylar 0'dan başlar, bu yüzden +1 ekliyoruz.
@@ -28,34 +36,34 @@ function Rapor() {
 
     const rapor = {
       user: "",
-      material: 'Kırmızı Başlıklı Kız',
+      material: 'Bir Tatil Anısı',
       date:"25/01/2024",
-      readSpeed: 150, // okuma hızı
-      totalCountWord: 500, // toplam kelime sayısı
-      countOfWordsReadCorrect: 450,
+      speechSpeed: 150, // okuma hızı
+      totalWordCount: 500, // toplam kelime sayısı
+      correctlyWordCount: 450,
       countOfWordsReadWrong:50, // doğru okunan kelime sayısı
-      wordRecognitionPercentage: 90, // kelime tanıma yüzdesi
-      repeatedRead: 150, // tekrarlı okuma
-      pairedRead: 500, // eşli okuma
-      reverberantRead: 150, // yankılayıcı okuma
-      choirRead: 90, // koro okuma
+      werScore: 90, // kelime tanıma yüzdesi
+      repeatedWordCount: 150, // tekrarlı okuma
+     // pairedRead: 500, // eşli okuma
+     // reverberantRead: 150, // yankılayıcı okuma
+     // choirRead: 90, // koro okuma
     };
 
     setReport(rapor);
-  }, []); 
+  }, [token]); 
 
   const reportBilgileri = [
-    { label: 'Okuma Hızı', key: 'readSpeed', unit: 'Kelime/Dakika',color:'',  icon:<SiSpeedtest size="25px" />},
-    { label: 'Toplam Kelime Sayısı', key: 'totalCountWord', unit: 'Kelime',color:'', icon:<TbSum  size="25px"   /> },
-    { label: 'Doğru Okunan Kelime Sayısı', key: 'countOfWordsReadCorrect', unit: 'Kelime',color:'#c4e17f', icon:<TiTick  size="25px"  /> },
-    { label: 'Yanlış Okunan Kelime Sayısı', key: 'countOfWordsReadWrong', unit: 'Kelime',color:'#ffc2b8', icon:<IoClose   size="25px"  /> },
-    { label: 'Kelime Tanıma Yüzdesi', key: 'wordRecognitionPercentage', unit: '%' ,color:'', icon:<LuBadgePercent  size="25px"   /> },
-    { label: 'Tekrarlı Okuma', key: 'repeatedRead', unit: 'Kelime' ,color:'', icon:<LuRepeat2  size="25px"  /> },
-    { label: 'Eşli Okuma', key: 'pairedRead', unit: 'Kelime' ,color:'', icon:<GoMirror  size="25px"  /> },
-    { label: 'Yankılayıcı Okuma', key: 'reverberantRead', unit: 'Kelime',color:'', icon:<GiEchoRipples  size="25px"  /> },
-    { label: 'Koro Okuma', key: 'choirRead', unit: 'Kelime' ,color:'',icon:<GiChoice  size="25px"  /> },
+    { label: 'Okuma Hızı', key: 'speechSpeed', unit: 'Kelime/Dakika',color:'',  icon:<SiSpeedtest size="25px" />},
+    { label: 'Toplam Kelime Sayısı', key: 'totalWordCount', unit: 'Kelime',color:'', icon:<TbSum  size="25px"   /> },
+    { label: 'Doğru Okunan Kelime Sayısı', key: 'correctlyWordCount', unit: 'Kelime',color:'#c4e17f', icon:<TiTick  size="25px"  /> },
+    //{ label: 'Yanlış Okunan Kelime Sayısı', key: 'countOfWordsReadWrong', unit: 'Kelime',color:'#ffc2b8', icon:<IoClose   size="25px"  /> },
+    { label: 'Kelime Tanıma Yüzdesi', key: 'werScore', unit: '%' ,color:'', icon:<LuBadgePercent  size="25px"   /> },
+    { label: 'Tekrarlı Okuma', key: 'repeatedWordCount', unit: 'Kelime' ,color:'', icon:<LuRepeat2  size="25px"  /> },
+   // { label: 'Eşli Okuma', key: 'pairedRead', unit: 'Kelime' ,color:'', icon:<GoMirror  size="25px"  /> },
+   // { label: 'Yankılayıcı Okuma', key: 'reverberantRead', unit: 'Kelime',color:'', icon:<GiEchoRipples  size="25px"  /> },
+    //{ label: 'Koro Okuma', key: 'choirRead', unit: 'Kelime' ,color:'',icon:<GiChoice  size="25px"  /> },
   ];
-  const correct =(report?.countOfWordsReadCorrect * 100) / report?.totalCountWord;
+  const correct =(report?.correctlyWordCount * 100) / report?.totalWordCount;
   const failed =100-correct;
 
   const chartData = [
@@ -84,13 +92,13 @@ function Rapor() {
                   <PieChart data={chartData}/>
             </div>
           
-            <div className='col-span-3 md:col-span-1 border border-black/30 h-auto  m-3 rounded-md hover:border-2'>
+            <div className='col-span-3 md:col-span-1 border border-black/30 h-auto  m-3 rounded-md '>
               <div className=''>
                   <div className='w-full flex self-center border-b-2 font-bold  bg-secondary p-5'>
                     DEĞERLENDİRME AYRINTISI
                   </div>
                   {reportBilgileri.map((bilgi, index) => (
-                    <div key={index} className={`flex px-5 py-5 border-b-2 overflow-hidden`} style={{ backgroundColor: bilgi.color }}>
+                    <div key={index} className={`flex px-5 py-5 border-b-2 overflow-hidden `} style={{ backgroundColor: bilgi.color }}>
                       <div className='p-1'>{bilgi.icon}</div>
                           <div className='p-1 font-bold'>{bilgi.label} :  </div>
                           <div className='p-1 text-primary'>{report?.[bilgi.key]}</div>

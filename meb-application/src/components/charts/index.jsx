@@ -30,8 +30,7 @@ const PieChart = ({ data }) => {
             show: true,
             position: 'center',
             formatter: '{d}%',
-            fontSize: 40,
-            fontWeight: 'bold'
+            fontSize: 30,
           },
           emphasis: {
             label: {

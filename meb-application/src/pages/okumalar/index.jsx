@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Button from '../../components/button/index'
 import { FaBookOpenReader } from "react-icons/fa6";
 import Table from '../../components/table/index'
+import { useNavigate } from 'react-router-dom';
 
 function Okumalar() {
+  const token = JSON.parse(localStorage.getItem('token'));
+  const navigate=useNavigate();
+  useEffect(() => {
+    if(token==null){
+      navigate('/login', {replace:true})
+    }
+  }, [token])
+  
   const tableData = [
     {id:1, appName: 'Uygulama 1', appDate: '01.01.2023', correctWords: 150, totalWords: 200, wordRecognition: 75 },
     {id:2, appName: 'Uygulama 2', appDate: '05.15.2023', correctWords: 120, totalWords: 150, wordRecognition: 80 },
