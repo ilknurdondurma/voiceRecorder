@@ -9,22 +9,36 @@ import { GiChoice } from "react-icons/gi";
 import { TiTick } from "react-icons/ti";
 import PieChart from '../../components/charts/index'
 import { IoClose } from "react-icons/io5";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getReportById } from '../../api';
+import errorMessage from '../../helper/toasts/errorMessage'
+import succesMessage from '../../helper/toasts/successMessage'
+import {convertedDate} from '../../helper/convertToDateTime'
 
 function Rapor() {
   const [bugununTarihi, setBugununTarihi] = useState(null);
-  const [report, setReport] = useState({});
+  const [report, setReport] = useState([]);
   const token = JSON.parse(localStorage.getItem('token'));
   const formDataObject = JSON.parse(localStorage.getItem('user'));
-  const user=formDataObject?.username;
+  const user=formDataObject?.name + " "+formDataObject?.surname;
   const navigate=useNavigate();
+  const {id}  = useParams();
 
 
   useEffect(() => {
     if(token==null){
       navigate('/login', {replace:true})
     }
+    getReportById(id)
+      .then((result)=>{
+        setReport(result?.data.data)
+        console.log(report)
+      })
+      .catch((error)=>{
+        console.log(error);
+        errorMessage("Bir hata oluştu")
 
+      })
     const bugun = new Date();
     const gun = bugun.getDate();
     const ay = bugun.getMonth() + 1; // Aylar 0'dan başlar, bu yüzden +1 ekliyoruz.
@@ -34,22 +48,6 @@ function Rapor() {
 
     setBugununTarihi(formattedTarih);
 
-    const rapor = {
-      user: "",
-      material: 'Bir Tatil Anısı',
-      date:"25/01/2024",
-      speechSpeed: 150, // okuma hızı
-      totalWordCount: 500, // toplam kelime sayısı
-      correctlyWordCount: 450,
-      countOfWordsReadWrong:50, // doğru okunan kelime sayısı
-      werScore: 90, // kelime tanıma yüzdesi
-      repeatedWordCount: 150, // tekrarlı okuma
-     // pairedRead: 500, // eşli okuma
-     // reverberantRead: 150, // yankılayıcı okuma
-     // choirRead: 90, // koro okuma
-    };
-
-    setReport(rapor);
   }, [token]); 
 
   const reportBilgileri = [
@@ -80,10 +78,10 @@ function Rapor() {
           Değerlendirme Sonucu
         </h1>
         <h3 className='text-l mb-5 text-center text-gray-600 border-b-2'>
-          {user} - {bugununTarihi}
+          {user} - { convertedDate(report?.date)}
         </h3>
         <h1 className='text-gray-600 text-lg  text-center flex justify-center pb-2 p-1'>
-          Değerlendirilen Materyal : <span className='text-md'>{report?.material}</span>
+          Değerlendirilen Materyal : <span className='text-md'>{report?.textHeader}</span>
         </h1>
         
 

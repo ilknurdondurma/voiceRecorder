@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { TbArrowsSort } from 'react-icons/tb';
 import { Link } from 'react-router-dom';
+import {convertedDate} from '../../helper/convertToDateTime'
 
-const Table = ({ data, columns , initialSort,route }) => {
-  const initialSortColumn =initialSort;
+const Table = ({ data, columns ,route }) => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
+  const initialSortColumn ="date";
   const { sortedData, sortByColumn } = useSortableData(data,initialSortColumn);
 
   const colorPalette = ['#d1d5db'];
@@ -16,7 +17,8 @@ const Table = ({ data, columns , initialSort,route }) => {
     colorIndex = (colorIndex + 1) % colorPalette.length;
     return currentColor;
   };
-
+  
+  
   // Sayfa değiştirme işlevi
   const changePage = (newPage) => {
     setCurrentPage(newPage);
@@ -50,29 +52,32 @@ const Table = ({ data, columns , initialSort,route }) => {
         <tbody>
           {visibleData.map((row, rowIndex) => (
             <tr key={rowIndex} className="bg-white h-14">
-              {columns.map((column) => (
+              {columns.map((column, columnIndex) => (
                 <td key={column.key} className="border-y-2 border-y-gray-300 py-2 px-4 relative">
                   <div className="">
-                    {column.key === 'appName' ? (
-                      <Link to={`/${route}/${row['id']}`} className="text-primary hover:underline">
-                        <span
-                          className="text-black hover:underline"
-                          style={{
-                            backgroundColor: getRandomColor(),
-                            padding: '10px',
-                            width: '100%',
-                            borderRadius: '5px',
-                            display: 'inline-block',
-                          }}
-                        >
-                          {row[column.key]}
-                        </span>
-                      </Link>
-                    ) : (
-                      row[column.key]
-                    )}
+                      {column.key === 'textHeader' ? (
+                        <Link to={`/${route}/${row['id']}`} className="text-primary hover:underline">
+                          <span
+                            className="text-black hover:underline"
+                            style={{
+                              backgroundColor: getRandomColor(),
+                              padding: '10px',
+                              width: '100%',
+                              borderRadius: '5px',
+                              display: 'inline-block',
+                            }}
+                          >
+                            {row[column.key]}
+                          </span>
+                        </Link>
+                      ) : column.key === 'date' ? (
+                        <div className="text-black">{convertedDate(row[column.key])}</div>
+                      ) : (
+                        <div className="text-black">{row[column.key]}</div>
+                      )}
                   </div>
-                </td>
+
+              </td>
               ))}
             </tr>
           ))}
@@ -102,15 +107,17 @@ const Table = ({ data, columns , initialSort,route }) => {
   );
 };
   
-  const useSortableData = (items, initialSortBy) => {
-    const [sortBy, setSortBy] = useState(initialSortBy);
-    const [sortDesc, setSortDesc] = useState(false);
-  
-    const sortedData = useMemo(() => {
-      const sortedItems = [...items].sort((a, b) => {
-        const aValue = a[sortBy];
-        const bValue = b[sortBy];
-  
+const useSortableData = (items, initialSortBy) => {
+  const [sortBy, setSortBy] = useState(initialSortBy);
+  const [sortDesc, setSortDesc] = useState(false);
+
+  const sortedData = useMemo(() => {
+    const sortedItems = [...items].sort((a, b) => {
+      const aValue = a[sortBy];
+      const bValue = b[sortBy];
+
+      // Check if values are defined before using localeCompare
+      if (aValue !== undefined && bValue !== undefined) {
         // Eğer sayısal bir karşılaştırma mümkünse, sayısal sıralama yap
         if (!isNaN(aValue) && !isNaN(bValue)) {
           const numericComparison = (parseFloat(aValue) || 0) - (parseFloat(bValue) || 0);
@@ -119,22 +126,26 @@ const Table = ({ data, columns , initialSort,route }) => {
           // Eğer sayısal bir karşılaştırma mümkün değilse, string sıralama yap
           return sortDesc ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue);
         }
-      });
-  
-      return sortedItems;
-    }, [items, sortBy, sortDesc]);
-  
-    const sortByColumn = (key) => {
-      if (key === sortBy) {
-        setSortDesc(!sortDesc);
-      } else {
-        setSortBy(key);
-        setSortDesc(false);
       }
-    };
-  
-    return { sortedData, sortByColumn, initialSortBy };
+      
+      return 0; // Return 0 if either value is undefined
+    });
+
+    return sortedItems;
+  }, [items, sortBy, sortDesc]);
+
+  const sortByColumn = (key) => {
+    if (key === sortBy) {
+      setSortDesc(!sortDesc);
+    } else {
+      setSortBy(key);
+      setSortDesc(false);
+    }
   };
+
+  return { sortedData, sortByColumn, initialSortBy };
+};
+
   
   
   

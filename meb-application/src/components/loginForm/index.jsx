@@ -33,7 +33,9 @@ const handleSubmit = (values, setSubmitting) => {
               // Check if data is defined and has a status property
               if (data && data.status === 200) {
                 succesMessage("Giriş başarılı anasayfaya yönlendiriliyorsunuz...")
-                localStorage.setItem("token", JSON.stringify(data.data.data));
+                localStorage.setItem("token", JSON.stringify(data.data.data.token));
+                localStorage.setItem("user", JSON.stringify(data.data.data));
+
                 setTimeout(() => {
                   navigate("/",{replace:true});
                 }, 2000);

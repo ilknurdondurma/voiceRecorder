@@ -6,9 +6,10 @@ import { BsSendFill } from "react-icons/bs";
 import { FaCaretRight } from "react-icons/fa";
 import { FaHeadphonesAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { createReport } from "../../api";
 
 
-const SoundRecorder = () => {
+const SoundRecorder = ({textId}) => {
     const [mediaStream, setMediaStream] = useState(null);
     const [audioContext, setAudioContext] = useState(null);
     const [text, setText] = useState([]);
@@ -21,7 +22,9 @@ const SoundRecorder = () => {
     const [recorder, setRecorder] = useState(null);
     const [buttonText, setButtonText] = useState('Kaydı Başlat');
     const [loading, setLoading] = useState(false)
-    const id=1                                                      // text id
+    const formDataObject = JSON.parse(localStorage.getItem('user'));
+    const user=formDataObject?.name + " "+formDataObject?.surname;
+
 
     const navigate=useNavigate();
 
@@ -33,12 +36,9 @@ const SoundRecorder = () => {
         setIsActive(false);
     };
 
-    const resetTimer = () => {
-        setSeconds(0);
-        setIsActive(false);
-    };
 
     useEffect(() => {
+
         let interval;
 
         if (isActive) {
@@ -127,6 +127,7 @@ const SoundRecorder = () => {
     setListening(false);
 };
 
+
     // const sendAudioToAPI = (audioBlob) => {
     //   const API_ENDPOINT = `${process.env.REACT_APP_API_URL}/asr`
     //   const formData = new FormData();
@@ -180,7 +181,10 @@ const SoundRecorder = () => {
                 <span className="flex justify-center border-2 border-gray-400 py-3 px-4 rounded-xl cursor-pointer" onClick={stopRecording}><FaHeadphonesAlt className="mr-3" onClick={resumeRecording} />Bitir </span>
             </div>
             <audio src={audioUrl} controls className="w-full" />
-            <Button className="m-3 p-4 rounded-xl cursor-pointer" variant="GreenButton" size="large" onClick={()=>{ navigate(`/rapor/${id}`)}}> Gönder</Button>
+            <div className="text-xl font-bold text-primary">{`Geçen Süre: ${seconds} saniye`}</div>
+
+            <Button className="m-3 p-4 rounded-xl cursor-pointer" variant="GreenButton" size="large" > Gönder</Button>
+
         </div>
         
        

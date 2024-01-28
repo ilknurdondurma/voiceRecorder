@@ -27,7 +27,12 @@ export const login = (user) => API.post('/Auth/Login', user)
 export const getAllText = () => API.get('/Text')
 export const getTextById = (id) => API.get(`/Text/${id}`)
 
-export const add = (product) => API.post(`//`,product, {headers: {'Content-Type':'multipart/form-data'}})
+//rapor
+export const getAllReport = () => API.get('/Quiz')
+export const getReportById = (id) => API.get(`/Quiz/${id}`)
+export const createReport = (formData) => API.post(`/Quiz`,formData, {headers: {'Content-Type':'multipart/form-data'}})
+
+
 
 
 
