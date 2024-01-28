@@ -233,7 +233,6 @@ const sendAudioToAPI = async () => {
                 <span className="flex justify-center border-2 border-gray-400 py-3 px-4 rounded-xl cursor-pointer" onClick={stopRecording}><FaHeadphonesAlt className="mr-3"  />Bitir </span>
             </div>
             <audio src={audioUrl} controls className="w-full" />
-            <div className="text-sm font-bold text-primary">{`Geçen Süre: ${seconds} saniye`}</div>
 
             <Button 
                 className={`m-3 p-4 rounded-xl cursor-pointer ${loading ?'opacity-50':''}`}

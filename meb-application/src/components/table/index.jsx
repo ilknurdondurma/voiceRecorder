@@ -7,6 +7,7 @@ const Table = ({ data, columns ,route }) => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const initialSortColumn ="date";
+  
   const { sortedData, sortByColumn } = useSortableData(data,initialSortColumn);
 
   const colorPalette = ['#d1d5db'];
@@ -72,10 +73,14 @@ const Table = ({ data, columns ,route }) => {
                         </Link>
                       ) : column.key === 'date' ? (
                         <div className="text-black">{convertedDate(row[column.key])}</div>
+                      ) : column.key === 'repeatedWords' ? (
+                        <div className="text-black">
+                          {row[column.key].length} Adet
+                        </div>
                       ) : (
                         <div className="text-black">{row[column.key]}</div>
                       )}
-                  </div>
+                    </div>
 
               </td>
               ))}

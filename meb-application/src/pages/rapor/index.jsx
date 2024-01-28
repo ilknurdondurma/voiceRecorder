@@ -14,6 +14,7 @@ import { getReportById } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
 import {convertedDate} from '../../helper/convertToDateTime'
+import { ToastContainer } from 'react-toastify';
 
 function Rapor() {
   const [bugununTarihi, setBugununTarihi] = useState(null);
@@ -56,7 +57,7 @@ function Rapor() {
     { label: 'Doğru Okunan Kelime Sayısı', key: 'correctlyWordCount', unit: 'Kelime',color:'#c4e17f', icon:<TiTick  size="25px"  /> },
     //{ label: 'Yanlış Okunan Kelime Sayısı', key: 'countOfWordsReadWrong', unit: 'Kelime',color:'#ffc2b8', icon:<IoClose   size="25px"  /> },
     { label: 'Kelime Tanıma Yüzdesi', key: 'werScore', unit: '%' ,color:'', icon:<LuBadgePercent  size="25px"   /> },
-    { label: 'Tekrarlı Okuma', key: 'repeatedWordCount', unit: 'Kelime' ,color:'', icon:<LuRepeat2  size="25px"  /> },
+    { label: 'Tekrarlı Okuma', key: 'repeatedWords' ,color:'', icon:<LuRepeat2  size="25px"  /> },
     // { label: 'Eşli Okuma', key: 'pairedRead', unit: 'Kelime' ,color:'', icon:<GoMirror  size="25px"  /> },
     // { label: 'Yankılayıcı Okuma', key: 'reverberantRead', unit: 'Kelime',color:'', icon:<GiEchoRipples  size="25px"  /> },
     //{ label: 'Koro Okuma', key: 'choirRead', unit: 'Kelime' ,color:'',icon:<GiChoice  size="25px"  /> },
@@ -73,6 +74,8 @@ function Rapor() {
   ];
   return (
     <div className='w-full flex justify-center'>
+      <ToastContainer />
+
       <div className='w-full sm:w-full md:w-full bg-white p-6 rounded-lg shadow-md'>
         <h1 className='font-bold text-3xl mb-5 text-center text-quaternary'>
           Değerlendirme Sonucu
@@ -99,13 +102,18 @@ function Rapor() {
                     DEĞERLENDİRME AYRINTISI
                   </div>
                   {reportBilgileri.map((bilgi, index) => (
-                    <div key={index} className={`flex px-5 py-5 border-b-2 overflow-hidden `} style={{ backgroundColor: bilgi.color }}>
-                      <div className='p-1'>{bilgi.icon}</div>
-                          <div className='p-1 font-bold'>{bilgi.label} :  </div>
-                          <div className='p-1 text-primary'>{report?.[bilgi.key]}</div>
-                          <div className='p-1'>{bilgi.unit}</div>
-                     </div>
-                      
+                      <div key={index} className={`flex px-5 py-5 border-b-2 overflow-hidden `} style={{ backgroundColor: bilgi.color }}>
+                        <div className='p-1'>{bilgi.icon}</div>
+                        <div className='p-1 font-bold'>{bilgi.label} :  </div>
+                        <div className='p-1 text-primary '>
+                          {bilgi.key === 'repeatedWords' ? (
+                            report[bilgi.key].join('\t ')
+                          ) : (
+                            report?.[bilgi.key]
+                          )}
+                        </div>
+                        <div className='p-1'>{bilgi.unit}</div>
+                      </div>
                     ))}
               </div>
             </div>

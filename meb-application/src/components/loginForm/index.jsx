@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../../components/Input/text';
 import Button from '../../components/button';
-import DropDown from '../Input/dropdown/index'
 import { Form, Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CheckBox from '../Input/checkbox';
 import { loginSchema } from '../../validation/auth/login';
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
@@ -17,6 +15,11 @@ import { login } from '../../api';
 export default function LoginForm(){
   const navigate = useNavigate();
  // const {setUser}=useAuth();
+
+ useEffect(() => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+}, [])
 
 const handleSubmit = (values, setSubmitting) => {
 
@@ -33,8 +36,8 @@ const handleSubmit = (values, setSubmitting) => {
               // Check if data is defined and has a status property
               if (data && data.status === 200) {
                 succesMessage("Giriş başarılı anasayfaya yönlendiriliyorsunuz...")
-                localStorage.setItem("token", JSON.stringify(data.data.data.token));
-                localStorage.setItem("user", JSON.stringify(data.data.data));
+                    localStorage.setItem("token", JSON.stringify(data.data.data.token));
+                    localStorage.setItem("user", JSON.stringify(data.data.data));
 
                 setTimeout(() => {
                   navigate("/",{replace:true});

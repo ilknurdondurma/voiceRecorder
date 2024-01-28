@@ -4,11 +4,14 @@ import './index.css';
 import routes from './routes/index'
 import reportWebVitals from './reportWebVitals';
 import {RouterProvider} from "react-router-dom";
+import {AuthProvider} from "../src/context/authContext/authContext"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <RouterProvider router={routes}>
-  </RouterProvider>
+  <AuthProvider>
+      <RouterProvider router={routes}>
+      </RouterProvider>
+    </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

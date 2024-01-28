@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PiStudentFill } from "react-icons/pi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CiAlignTop } from "react-icons/ci";
@@ -52,6 +52,9 @@ function Navbar(){
           route:'yeni-okuma'
         },
       ];
+
+    useEffect(() => {
+}, [user])
     return(
         <div className='w-full h-auto mb-28 flex flex-col justify-center' >
             <div className='w-full h-24 fixed top-0 left-0 z-10 justify-center rounded-lg border-b-2 mb-24' style={{backgroundImage: `url(${backgroundImageUrl})`,backgroundSize: 'cover',}}>

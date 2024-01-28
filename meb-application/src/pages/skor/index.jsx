@@ -6,6 +6,7 @@ import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
 import { getAllReport,} from '../../api';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 function Skor() {
   const [reports , setReports]=useState([]);
   const token = JSON.parse(localStorage.getItem('token'));
@@ -36,9 +37,12 @@ function Skor() {
     { key: "totalWordCount", label: 'Toplam Kelime Sayısı' },
     { key: "werScore", label: 'Kelime Tanıma Yüzdesi' },
 
+
   ];
   return (
     <div className='w-full flex justify-center'>
+                  <ToastContainer />
+
         <div className='w-full  flex flex-col justify-center '>
           <h1 className='text-xl my-3 font-bold flex sm:mx-5'><CiAlignTop  size="30px" color='black' style={{ transform: 'rotate(180deg)' }} />SKORLARIM</h1>
           <div>

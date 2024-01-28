@@ -27,8 +27,9 @@ function Sidebar() {
     },
   ];
   const navigate=useNavigate();
+  
   const goReportHandle =()=>{
-    navigate('/rapor/1')
+    navigate('/rapor/26')
 }
   const progressValue = 39;
   return (

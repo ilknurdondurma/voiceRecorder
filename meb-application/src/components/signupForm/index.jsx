@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../../components/Input/text';
 import Button from '../../components/button';
 import DropDown from '../Input/dropdown/index'
@@ -23,6 +23,10 @@ export default function SignUpForm(){
   { value: 3, label: "3. Sınıf" },
   { value: 4, label: "4. Sınıf" },
 ];
+useEffect(() => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+}, [])
 
 
 
@@ -95,6 +99,7 @@ const handleSubmit = (values, setSubmitting) => {
                         </div>
                         <Input className="sm:text-xs my-3" name="username" placeholder="Kullanıcı Adı"/>
                         <Input className="sm:text-xs my-3" type="password" name="password" placeholder="Şifre"/>
+                        <a href='/login'> Hesabın  var mı? Giriş yap!</a>
 
                   
                         <Button

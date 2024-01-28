@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAllReport } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
+import { ToastContainer } from 'react-toastify';
 
 function Okumalar() {
   const [reports , setReports]=useState([]);
@@ -35,12 +36,16 @@ function Okumalar() {
     { key: "correctlyWordCount", label: 'Doğru Kelime Sayısı' },
     { key: "totalWordCount", label: 'Toplam Kelime Sayısı' },
     { key: "werScore", label: 'Kelime Tanıma Yüzdesi' },
+    { key: "repeatedWords", label: 'Tekrarlı Kelimeler' },
+
 
   ];
 
 
   return (
     <div className='w-full flex justify-center'>
+      <ToastContainer />
+
     <div className='w-full  flex flex-col justify-center '>
       <h1 className='text-xl my-3 font-bold flex sm:mx-5'><FaBookOpenReader size="20px" color='black' />OKUMALAR</h1>
       <div>
