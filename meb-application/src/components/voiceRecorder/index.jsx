@@ -5,8 +5,12 @@ import Button from '../../components/button/index'
 import { BsSendFill } from "react-icons/bs";
 import { FaCaretRight } from "react-icons/fa";
 import { FaHeadphonesAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { createReport } from "../../api";
+import succesMessage from "../../helper/toasts/successMessage";
+import errorMessage from "../../helper/toasts/errorMessage";
+import Spin from '../spin/index'
+import { ToastContainer } from "react-toastify";
 
 
 const SoundRecorder = ({textId}) => {
@@ -20,10 +24,10 @@ const SoundRecorder = ({textId}) => {
     const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(false);
     const [recorder, setRecorder] = useState(null);
-    const [buttonText, setButtonText] = useState('Kaydı Başlat');
+    const [showAudio, setShowAudio] = useState(true);
     const [loading, setLoading] = useState(false)
     const formDataObject = JSON.parse(localStorage.getItem('user'));
-    const user=formDataObject?.name + " "+formDataObject?.surname;
+    const user=formDataObject?.id;
 
 
     const navigate=useNavigate();
@@ -43,7 +47,10 @@ const SoundRecorder = ({textId}) => {
 
         if (isActive) {
             interval = setInterval(() => {
-                setSeconds((prevSeconds) => prevSeconds + 1);
+                setSeconds((prevSeconds) => {
+                    console.log("Seconds changed:", prevSeconds + 1);
+                    return prevSeconds + 1;
+                });
             }, 1000); // Her saniye bir artır
         } else {
             clearInterval(interval);
@@ -55,6 +62,7 @@ const SoundRecorder = ({textId}) => {
     const startRecording = async () => {
         setListening(true);
         startTimer();
+        setSeconds(0);
 
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -126,6 +134,49 @@ const SoundRecorder = ({textId}) => {
 
     setListening(false);
 };
+const sendAudioToAPI = async () => {
+    console.log("göndere bastı")
+    console.log(seconds)
+    // JSON verisi
+    const jsonData = {
+      recordLength: seconds, 
+      studentId: user, 
+      textId: textId,
+    };
+
+    // FormData oluştur
+    const formData = new FormData();
+
+    // JSON verisini FormData'ya ekle
+    formData.append("data", JSON.stringify(jsonData));
+
+    // Ses dosyasını FormData'ya ekle
+    formData.append("audio", await fetch(audioUrl).then((res) => res.blob()), "recorded.wav");
+
+    // Axios kullanarak API'ye gönder
+    setLoading(true);
+    createReport(formData)
+      .then((response) => {
+        console.log("API cevabı:", response.data);
+        if (response?.data?.message==="Rapor hazırlandı.") {
+          console.log(response.data.message);
+          setText((texts) => [...texts, response.data.message]);
+          setVoice((voice) => [...voice, response.data.filename]);
+          
+        }
+        setLoading(false)
+        console.log(response.data.data.id)
+        navigate(`/rapor/${response.data.data.id}`)
+        succesMessage("basarılı")
+       
+      })
+      .catch((error) => {
+        setLoading(false)
+        console.error("API hatası:", error);
+        errorMessage(`API hatası: ${error.message}`)
+      })
+      
+  };
 
 
     // const sendAudioToAPI = (audioBlob) => {
@@ -171,6 +222,7 @@ const SoundRecorder = ({textId}) => {
   //       };
     return (
         <div className="w-full h-full flex flex-col">
+            <ToastContainer />
         <div className="flex flex-col items-center justify-center gap-4 ">
             <div className="flex gap-4">
                 <span className="flex justify-center border-2 border-gray-400 p-3 rounded-xl cursor-pointer" onClick={startRecording}><BiSolidMicrophone className="mr-3" />{recorder && recorder.state === 'recording' ?"Başladı..":"Başlat"}</span>
@@ -178,12 +230,20 @@ const SoundRecorder = ({textId}) => {
                 {listening && recorder && recorder.state === 'paused' && (
                     <span className="flex justify-center border-2 border-gray-400 p-3 rounded-xl cursor-pointer" onClick={resumeRecording}><FaCaretRight className="mr-3" /> Devam </span>
                 )}
-                <span className="flex justify-center border-2 border-gray-400 py-3 px-4 rounded-xl cursor-pointer" onClick={stopRecording}><FaHeadphonesAlt className="mr-3" onClick={resumeRecording} />Bitir </span>
+                <span className="flex justify-center border-2 border-gray-400 py-3 px-4 rounded-xl cursor-pointer" onClick={stopRecording}><FaHeadphonesAlt className="mr-3"  />Bitir </span>
             </div>
             <audio src={audioUrl} controls className="w-full" />
-            <div className="text-xl font-bold text-primary">{`Geçen Süre: ${seconds} saniye`}</div>
+            <div className="text-sm font-bold text-primary">{`Geçen Süre: ${seconds} saniye`}</div>
 
-            <Button className="m-3 p-4 rounded-xl cursor-pointer" variant="GreenButton" size="large" > Gönder</Button>
+            <Button 
+                className={`m-3 p-4 rounded-xl cursor-pointer ${loading ?'opacity-50':''}`}
+               // disabled={showAudio}
+                variant="GreenButton"
+                size="large"
+                onClick={sendAudioToAPI}
+                >
+                {loading ? <Spin /> : 'Gönder'}
+            </Button>
 
         </div>
         

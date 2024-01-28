@@ -57,8 +57,8 @@ function Rapor() {
     //{ label: 'Yanlış Okunan Kelime Sayısı', key: 'countOfWordsReadWrong', unit: 'Kelime',color:'#ffc2b8', icon:<IoClose   size="25px"  /> },
     { label: 'Kelime Tanıma Yüzdesi', key: 'werScore', unit: '%' ,color:'', icon:<LuBadgePercent  size="25px"   /> },
     { label: 'Tekrarlı Okuma', key: 'repeatedWordCount', unit: 'Kelime' ,color:'', icon:<LuRepeat2  size="25px"  /> },
-   // { label: 'Eşli Okuma', key: 'pairedRead', unit: 'Kelime' ,color:'', icon:<GoMirror  size="25px"  /> },
-   // { label: 'Yankılayıcı Okuma', key: 'reverberantRead', unit: 'Kelime',color:'', icon:<GiEchoRipples  size="25px"  /> },
+    // { label: 'Eşli Okuma', key: 'pairedRead', unit: 'Kelime' ,color:'', icon:<GoMirror  size="25px"  /> },
+    // { label: 'Yankılayıcı Okuma', key: 'reverberantRead', unit: 'Kelime',color:'', icon:<GiEchoRipples  size="25px"  /> },
     //{ label: 'Koro Okuma', key: 'choirRead', unit: 'Kelime' ,color:'',icon:<GiChoice  size="25px"  /> },
   ];
   const correct =(report?.correctlyWordCount * 100) / report?.totalWordCount;
@@ -85,10 +85,13 @@ function Rapor() {
         </h1>
         
 
-        <div className='grid grid-cols-4 sm:grid-cols-1 md:grid-cols-1 gap-4'>
-            <div className='flex flex-col justify-center col-span-1 sm:hidden md:hidden'>
-                  <PieChart data={chartData}/>
+        <div className='grid grid-cols-4 sm:grid-cols-1 md:grid-cols-1 md:grid-rows-3 gap-4'>
+          <div className='relative flex flex-col justify-center col-span-1 sm:hidden md:row-span-1 '>
+            <PieChart data={chartData} />
+            <div className="absolute top-1/2 left-1/2 lg:left-3/4 md:left-2/4 transform -translate-x-1/2 -translate-y-1/2 text-center text-gray-600">
+              {report?.["werScore"]}%
             </div>
+          </div>
           
             <div className='col-span-3 md:col-span-1 border border-black/30 h-auto  m-3 rounded-md '>
               <div className=''>

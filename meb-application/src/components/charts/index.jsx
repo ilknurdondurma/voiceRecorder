@@ -26,12 +26,7 @@ const PieChart = ({ data }) => {
             borderColor: '#d2392e',
             borderWidth: 2
           },
-          label: {
-            show: true,
-            position: 'center',
-            formatter: '{d}%',
-            fontSize: 30,
-          },
+          
           emphasis: {
             label: {
               show: true,

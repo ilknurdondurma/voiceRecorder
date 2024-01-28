@@ -9,7 +9,7 @@ function YeniOkuma({ selectedClassLevel}) {
 
   const formDataObject = JSON.parse(localStorage.getItem('user'));
   const userClass=formDataObject?.class;
-  selectedClassLevel=1;
+  selectedClassLevel=userClass;
 
   const [texts,setTexts]=useState([]);
   const token = JSON.parse(localStorage.getItem('token'));
@@ -23,6 +23,8 @@ function YeniOkuma({ selectedClassLevel}) {
     getAllText()
       .then((result)=>{
         setTexts(result?.data.data)
+        console.log(result?.data)
+        console.log(result?.data.data)
         console.log(texts)
       })
       .catch((error)=>{
