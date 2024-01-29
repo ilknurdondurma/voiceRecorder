@@ -11,6 +11,8 @@ import { ToastContainer } from 'react-toastify';
 function Okumalar() {
   const [reports , setReports]=useState([]);
   const token = JSON.parse(localStorage.getItem('token'));
+  const formDataObject = JSON.parse(localStorage.getItem('user'));
+  const userId=formDataObject?.studentId;
   const navigate=useNavigate();
   useEffect(() => {
     if(token==null){
@@ -40,6 +42,7 @@ function Okumalar() {
 
 
   ];
+  const filteredOkuma = reports.filter((rep) => rep.studentId === userId);
 
 
   return (

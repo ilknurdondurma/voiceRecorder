@@ -62,7 +62,7 @@ function Navbar(){
       }, []);
     
       const handleStorageChange = () => {
-        const updatedUser = JSON.parse(localStorage.getItem('user'))?.username;
+        const updatedUser = JSON.parse(localStorage.getItem('user'));
         setUser(updatedUser);
       };
     return(

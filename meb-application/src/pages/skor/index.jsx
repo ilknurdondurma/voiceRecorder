@@ -10,6 +10,8 @@ import { ToastContainer } from 'react-toastify';
 function Skor() {
   const [reports , setReports]=useState([]);
   const token = JSON.parse(localStorage.getItem('token'));
+  const formDataObject = JSON.parse(localStorage.getItem('user'));
+  const userId=formDataObject?.studentId;
   const navigate=useNavigate();
 
   useEffect(() => {
@@ -39,6 +41,12 @@ function Skor() {
 
 
   ];
+  const filteredSkor = reports.filter((rep) => rep.studentId === userId);
+  const filtered=JSON.stringify(filteredSkor)
+  console.log("filtered"+filteredSkor);
+  console.log("filtered 2 "+filtered);
+
+
   return (
     <div className='w-full flex justify-center'>
                   <ToastContainer />
