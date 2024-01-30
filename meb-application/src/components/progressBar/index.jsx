@@ -32,7 +32,7 @@ export default function  RoundProgressBar ({ progress , star , color="#f1f1f1" }
             strokeDashoffset={strokeDashoffset}
           />
         </svg>
-        <div className="absolute top-8 left-8 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold">
+        <div className="absolute top-8 left-8 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-sm">
           {progress}%
         </div>
       </div>

@@ -70,7 +70,7 @@ const handleSubmit = (values, setSubmitting) => {
                         <label className="font-bold text-2xl sm:text-md">Giriş Yap</label>
                         <Input className="sm:text-xs my-5" name="username" placeholder="Kullanıcı Adı"/>
                         <Input className="sm:text-xs my-5" name="password" type="password" placeholder="Şifre"/>
-                        <a href='/signup'> Hesabın  yok mu? Kaydol !</a>
+                        <div onClick={()=>navigate('/signup')} className='cursor-pointer'> Hesabın  yok mu? Kaydol !</div>
 
                         <Button
                           className="w-full rounded-xl m-2 sm:text-xs my-5 hover:bg-black hover:text-white"

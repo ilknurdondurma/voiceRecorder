@@ -10,6 +10,7 @@ import Okuma from "../pages/okuma";
 import Login from "../pages/login";
 import AuthLayout from "../layouts/web/auth";
 import SignUp from "../pages/signUp";
+import NotFounded from "../pages/notFounded";
 
 const routes = createBrowserRouter([
     {
@@ -57,6 +58,10 @@ const routes = createBrowserRouter([
                         path:"/voice-record/:id" , element:<VoiceRecord/>
                     },
                 ]
+            },
+            {
+                path: '/404',
+                element: <NotFounded/>
             },
           
             

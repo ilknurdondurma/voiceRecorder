@@ -78,7 +78,7 @@ const handleSubmit = (values, setSubmitting) => {
           {({ setFieldValue,isSubmitting}) => (
                   <Form>
                     <div className='my-10'>
-                        <label className="font-bold text-2xl sm:text-md">Giriş Yap</label>
+                        <label className="font-bold text-2xl sm:text-md">Kayıt Ol</label>
                         <div className='grid grid-cols-2 gap-4 sm:grid-cols-1'>
                           <Input className="sm:text-xs my-3" name="name" placeholder="İsim"/>
                           <Input className="sm:text-xs my-3" name="surname" placeholder="Soyisim"/>
@@ -99,7 +99,7 @@ const handleSubmit = (values, setSubmitting) => {
                         </div>
                         <Input className="sm:text-xs my-3" name="username" placeholder="Kullanıcı Adı"/>
                         <Input className="sm:text-xs my-3" type="password" name="password" placeholder="Şifre"/>
-                        <a href='/login'> Hesabın  var mı? Giriş yap!</a>
+                        <div onClick={()=>navigate('/login')} className='cursor-pointer' > Hesabın  var mı? Giriş yap!</div>
 
                   
                         <Button
@@ -109,7 +109,7 @@ const handleSubmit = (values, setSubmitting) => {
                           size="large"
                           
                         >
-                          Giriş Yap
+                          Kayıt OL
                         </Button>
                     </div>
                </Form>

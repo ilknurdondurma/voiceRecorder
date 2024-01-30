@@ -11,7 +11,7 @@ function Skor() {
   const [reports , setReports]=useState([]);
   const token = JSON.parse(localStorage.getItem('token'));
   const formDataObject = JSON.parse(localStorage.getItem('user'));
-  const userId=formDataObject?.studentId;
+  const userId=formDataObject?.id;
   const navigate=useNavigate();
 
   useEffect(() => {
@@ -42,9 +42,7 @@ function Skor() {
 
   ];
   const filteredSkor = reports.filter((rep) => rep.studentId === userId);
-  const filtered=JSON.stringify(filteredSkor)
   console.log("filtered"+filteredSkor);
-  console.log("filtered 2 "+filtered);
 
 
   return (
@@ -56,7 +54,7 @@ function Skor() {
           <div>
               <Button variant="PrimaryOutline" className="my-5 text-black">Filtrele</Button>
           </div>
-          <Table data={reports} columns={tableColumns} route={"rapor"}/>
+          <Table data={filteredSkor} columns={tableColumns} route={"rapor"}/>
 
         </div>
 

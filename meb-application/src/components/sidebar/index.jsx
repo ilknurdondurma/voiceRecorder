@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate} from 'react-router-dom';
 import { CiAlignTop } from "react-icons/ci";
 import { FaBookOpenReader } from "react-icons/fa6";
 import {BiSolidBookAdd } from "react-icons/bi";
 import { MdChevronRight } from "react-icons/md";
 import RoundProgressBar from '../progressBar';
+import { getAllReport } from '../../api';
+import errorMessage from '../../helper/toasts/errorMessage'
+import succesMessage from '../../helper/toasts/successMessage'
 function Sidebar() {
   const sidebarElements = [
     {
@@ -26,12 +29,36 @@ function Sidebar() {
       route:'yeni-okuma'
     },
   ];
+  const [reports, setReports] = useState([])
   const navigate=useNavigate();
-  
-  const goReportHandle =()=>{
-    navigate('/rapor/26')
-}
-  const progressValue = 39;
+  const formDataObject = JSON.parse(localStorage.getItem('user'));
+  const userId=formDataObject?.id;
+  useEffect(() => {
+    getAllReport()
+    .then((result)=>{
+      setReports(result?.data.data)
+      console.log(reports)
+    })
+    .catch((error)=>{
+      console.log(error);
+      errorMessage("Bir hata oluştu")
+
+    })
+  }, [])
+
+  // kullanıcıya ait son raporu göstermek için
+  const filteredReports = reports.filter((rep) => rep.studentId === userId);
+  const lastReport = filteredReports[filteredReports.length - 1];
+  const progressValue = lastReport ? parseFloat(lastReport.werScore).toFixed(2) : '0.00';
+
+    const goReportHandle = () => {
+      if (filteredReports.length === 0) {
+        navigate("/404");
+      } 
+     else{
+      navigate(`/rapor/${lastReport.id}`);
+     }
+    };
   return (
     <div className=' fixed w-1/6 md:w-1/4 border-gray-400 bg-white border-2 rounded-xl p-1 m-4 h-4/5  '>
       <div className='h-full text-black text-md pt-5  flex flex-col justify-between'>

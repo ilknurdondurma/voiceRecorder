@@ -12,7 +12,7 @@ function Okumalar() {
   const [reports , setReports]=useState([]);
   const token = JSON.parse(localStorage.getItem('token'));
   const formDataObject = JSON.parse(localStorage.getItem('user'));
-  const userId=formDataObject?.studentId;
+  const userId=formDataObject?.id;
   const navigate=useNavigate();
   useEffect(() => {
     if(token==null){
@@ -43,7 +43,7 @@ function Okumalar() {
 
   ];
   const filteredOkuma = reports.filter((rep) => rep.studentId === userId);
-
+  console.log("filtered"+filteredOkuma);
 
   return (
     <div className='w-full flex justify-center'>
@@ -54,7 +54,7 @@ function Okumalar() {
       <div>
           <Button variant="PrimaryOutline" className="my-5 text-black">Filtrele</Button>
       </div>
-      <Table data={reports} columns={tableColumns}  route={"okuma"}/>
+      <Table data={filteredOkuma} columns={tableColumns}  route={"okuma"}/>
 
     </div>
 
