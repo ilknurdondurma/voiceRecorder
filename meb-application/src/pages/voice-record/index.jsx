@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import SoundRecorder from '../../components/voiceRecorder'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getTextById } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
 import { ToastContainer } from 'react-toastify';
+import { Helmet } from 'react-helmet';
 
-function VoiceRecord() {
+function VoiceRecord({studentName,studentSurname,studentClass}) {
   const token = JSON.parse(localStorage.getItem('token'));
   const navigate=useNavigate();
   const { id } = useParams();
   const [text,setText]=useState([]);
+  const location = useLocation();
+  const formValues = location.state;
 
   useEffect(() => {
     if(token==null){
@@ -35,12 +38,23 @@ function VoiceRecord() {
   const textHeader=text.header;
 
    return (
+   <div className='py-0.5 space-y-10'>
+   <Helmet>
+     <title>Yeni Okuma</title>
+    
+   </Helmet>
     <div className='w-full flex flex-col justify-center'>
         <ToastContainer />
 
         <h1 className='text-2xl my-3 font-bold flex justify-center'> {textHeader}</h1>
+        <div className='flex mx-10 gap-2 sm:mx-0'>
+          Öğrenci :
+          <p>{formValues.name}</p>
+          <p>{formValues.surname}</p>
+          <p>Sınıf: {formValues.class}</p>
+        </div>
         <textarea
-        className='border-2 p-5 text-xl my-5 mx-10 mb-10 rounded-xl '
+        className='border-2 p-5 text-xl my-5 mx-10 mb-10 rounded-xl sm:w-full sm:mx-0 '
         
         value={textContent}
         rows={15} // İstersen satır sayısını belirleyebilirsin
@@ -48,6 +62,7 @@ function VoiceRecord() {
         readOnly
       />
       <SoundRecorder textId={text.id}/>
+    </div>
     </div>
   )
 }

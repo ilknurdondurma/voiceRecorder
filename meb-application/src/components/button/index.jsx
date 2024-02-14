@@ -42,7 +42,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   as: 'button',
-  variant: 'Green',
+  variant: 'GreenButton',
   size: 'normal',
 }
 /**  ÖRNEK KULLANIM

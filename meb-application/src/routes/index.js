@@ -4,6 +4,7 @@ import  Home from '../pages/home'
 import Okumalar from "../pages/okumalar";
 import Skor from "../pages/skor";
 import YeniOkuma from "../pages/yeni-okuma";
+import YeniTest from '../pages/yeni-test';
 import Rapor from "../pages/rapor";
 import VoiceRecord from "../pages/voice-record";
 import Okuma from "../pages/okuma";
@@ -11,6 +12,7 @@ import Login from "../pages/login";
 import AuthLayout from "../layouts/web/auth";
 import SignUp from "../pages/signUp";
 import NotFounded from "../pages/notFounded";
+import Test from "../pages/yeni-test/test";
 
 const routes = createBrowserRouter([
     {
@@ -40,6 +42,14 @@ const routes = createBrowserRouter([
             {
                 path: '/yeni-okuma',
                 element: <YeniOkuma/>
+            },
+            {
+                path: '/yeni-test',
+                element: <YeniTest/>
+            },
+            {
+                path: '/test',
+                element: <Test/>
             },
             {
                 path: '/rapor',

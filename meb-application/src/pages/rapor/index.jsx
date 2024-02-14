@@ -3,25 +3,20 @@ import { SiSpeedtest } from "react-icons/si";
 import { TbSum } from "react-icons/tb";
 import { LuBadgePercent } from "react-icons/lu";
 import { LuRepeat2 } from "react-icons/lu";
-import { GoMirror } from "react-icons/go";
-import { GiEchoRipples } from "react-icons/gi";
-import { GiChoice } from "react-icons/gi";
 import { TiTick } from "react-icons/ti";
-import PieChart from '../../components/charts/index'
-import { IoClose } from "react-icons/io5";
+import PieChart from '../../components/charts/pieChart'
 import { useNavigate, useParams } from 'react-router-dom';
 import { getReportById } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
 import {convertedDate} from '../../helper/convertToDateTime'
 import { ToastContainer } from 'react-toastify';
+import { Helmet } from 'react-helmet';
 
 function Rapor() {
   const [bugununTarihi, setBugununTarihi] = useState(null);
   const [report, setReport] = useState([]);
   const token = JSON.parse(localStorage.getItem('token'));
-  const formDataObject = JSON.parse(localStorage.getItem('user'));
-  const user=formDataObject?.name + " "+formDataObject?.surname;
   const navigate=useNavigate();
   const {id}  = useParams();
 
@@ -55,9 +50,9 @@ function Rapor() {
     { label: 'Okuma Hızı', key: 'speechSpeed', unit: 'Kelime/Dakika',color:'',  icon:<SiSpeedtest size="25px" />},
     { label: 'Toplam Kelime Sayısı', key: 'totalWordCount', unit: 'Kelime',color:'', icon:<TbSum  size="25px"   /> },
     { label: 'Doğru Okunan Kelime Sayısı', key: 'correctlyWordCount', unit: 'Kelime',color:'#c4e17f', icon:<TiTick  size="25px"  /> },
-    //{ label: 'Yanlış Okunan Kelime Sayısı', key: 'countOfWordsReadWrong', unit: 'Kelime',color:'#ffc2b8', icon:<IoClose   size="25px"  /> },
-    { label: 'Kelime Tanıma Yüzdesi', key: 'werScore', unit: '%' ,color:'', icon:<LuBadgePercent  size="25px"   /> },
+    { label: 'Doğru Okuma Yüzdesi', key: 'werScore', unit: '%' ,color:'', icon:<LuBadgePercent  size="25px"   /> },
     { label: 'Tekrarlı Okuma', key: 'repeatedWords' ,color:'', icon:<LuRepeat2  size="25px"  /> },
+    //{ label: 'Yanlış Okunan Kelime Sayısı', key: 'countOfWordsReadWrong', unit: 'Kelime',color:'#ffc2b8', icon:<IoClose   size="25px"  /> },
     // { label: 'Eşli Okuma', key: 'pairedRead', unit: 'Kelime' ,color:'', icon:<GoMirror  size="25px"  /> },
     // { label: 'Yankılayıcı Okuma', key: 'reverberantRead', unit: 'Kelime',color:'', icon:<GiEchoRipples  size="25px"  /> },
     //{ label: 'Koro Okuma', key: 'choirRead', unit: 'Kelime' ,color:'',icon:<GiChoice  size="25px"  /> },
@@ -73,6 +68,10 @@ function Rapor() {
     { value: failed, name: 'Yanlış Okunan Kelime Sayısı' },
   ];
   return (
+    <div className='py-0.5 space-y-10'>
+      <Helmet>
+        <title>Rapor</title>
+      </Helmet>
     <div className='w-full flex justify-center'>
       <ToastContainer />
 
@@ -81,10 +80,10 @@ function Rapor() {
           Değerlendirme Sonucu
         </h1>
         <h3 className='text-l mb-5 text-center text-gray-600 border-b-2'>
-          {user} - { convertedDate(report?.date)}
+          {report?.studentName} - { convertedDate(report?.date)}
         </h3>
         <h1 className='text-gray-600 text-lg  text-center flex justify-center pb-2 p-1'>
-          Değerlendirilen Materyal : <span className='text-md'>{report?.textHeader}</span>
+          Değerlendirilen Materyal : <span className='text-md font-bold'>{report?.textHeader}</span>
         </h1>
         
 
@@ -106,18 +105,19 @@ function Rapor() {
                           <div className='p-1'>{bilgi.icon}</div>
                           <div className='p-1 font-bold'>{bilgi.label} :  </div>
                           <div className='p-1 text-primary '>
-                              {bilgi.key === 'repeatedWords' ? (
-                                  report?.[bilgi.key]?.join('\t ') // Check if repeatedWords is defined before using join
-                              ) : (
-                                  report?.[bilgi.key]
-                              )}
+                          {bilgi.key === 'repeatedWords' ? (
+                              report?.[bilgi.key]?.length > 0 ? report[bilgi.key].join('\t ') : <span className='text-green font-bold'>! Tekrarlı Kelime Bulunamadı !</span>
+                            ) : (
+                              report?.[bilgi.key]
+                            )}
+
                           </div>
                           <div className='p-1'>{bilgi.unit}</div>
                       </div>
                   ))}
               </div>
             </div>
-        
+        </div>
         </div>
       </div>
     </div>

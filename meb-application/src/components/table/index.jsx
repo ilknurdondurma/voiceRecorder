@@ -56,12 +56,13 @@ const Table = ({ data, columns ,route }) => {
               {columns.map((column, columnIndex) => (
                 <td key={column.key} className="border-y-2 border-y-gray-300 py-2 px-4 relative">
                   <div className="">
+          {/* baslık */}
                       {column.key === 'textHeader' ? (
                         <Link to={`/${route}/${row['id']}`} className="text-primary hover:underline">
                           <span
                             className="text-black hover:underline"
                             style={{
-                              backgroundColor: getRandomColor(),
+                              backgroundColor: getRandomColor(), // sadece gri var
                               padding: '10px',
                               width: '100%',
                               borderRadius: '5px',
@@ -71,15 +72,27 @@ const Table = ({ data, columns ,route }) => {
                             {row[column.key]}
                           </span>
                         </Link>
+          //date
                       ) : column.key === 'date' ? (
                         <div className="text-black">{convertedDate(row[column.key])}</div>
+
+          // tekrarlı kelimeler
                       ) : column.key === 'repeatedWords' ? (
                         <div className="text-black">
                           {row[column.key].length} Adet
                         </div>
+
+          // doğru kelime sayısı
+                      ) : column.key === 'correctlyWordCount' ? (
+                        <div className={`text-black text-center w-1/2 py-1 rounded-xl ${
+                          row['correctlyWordCount'] / row['totalWordCount'] < 0.5 ? 'bg-primary/85 h-full text-white' : 
+                          row['correctlyWordCount'] / row['totalWordCount'] < 0.8 ? 'bg-yellow-300' : 
+                          'bg-green'}`}>
+                          <span className='font-bold  p-1 m-1'>{row[column.key]} </span> / {row['totalWordCount']}
+                        </div>
                       ) : (
-                        <div className="text-black">{row[column.key]}</div>
-                      )}
+                          <div className="text-black">{row[column.key]}</div>
+                        )}
                     </div>
 
               </td>

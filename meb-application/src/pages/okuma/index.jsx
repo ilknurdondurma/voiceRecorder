@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import { getReportById, getTextById } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
-
+import { Helmet } from 'react-helmet';
 function Okuma() {
     const [report, setReport] = useState([]);
     const [text,setText]=useState([]);
@@ -57,6 +57,10 @@ function Okuma() {
    
     const different = report?.repeatedWords || [];
     return (
+      <div className='py-0.5 space-y-10'>
+      <Helmet>
+        <title>Okuma</title>
+      </Helmet>
     <div className='flex flex-col justify-center'>
         <ToastContainer />
 
@@ -98,6 +102,7 @@ function Okuma() {
             </div>
         </div>
     </div>
+        </div>
     )
 }
 

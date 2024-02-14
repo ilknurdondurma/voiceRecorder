@@ -3,6 +3,7 @@ import { NavLink, useNavigate} from 'react-router-dom';
 import { CiAlignTop } from "react-icons/ci";
 import { FaBookOpenReader } from "react-icons/fa6";
 import {BiSolidBookAdd } from "react-icons/bi";
+import { PiExamLight } from "react-icons/pi";
 import { MdChevronRight } from "react-icons/md";
 import RoundProgressBar from '../progressBar';
 import { getAllReport } from '../../api';
@@ -27,6 +28,12 @@ function Sidebar() {
       title: 'Yeni Okuma',
       icon: <BiSolidBookAdd size="20px" color='black'/>,
       route:'yeni-okuma'
+    },
+    {
+      id: 4,
+      title: 'Yeni Test',
+      icon: <PiExamLight size="20px" color='black'/>,
+      route:'yeni-test'
     },
   ];
   const [reports, setReports] = useState([])

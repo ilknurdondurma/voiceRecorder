@@ -7,6 +7,7 @@ import { getAllReport } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
 import { ToastContainer } from 'react-toastify';
+import { Helmet } from 'react-helmet';
 
 function Okumalar() {
   const [reports , setReports]=useState([]);
@@ -35,9 +36,9 @@ function Okumalar() {
   const tableColumns = [
     { key: "textHeader", label: 'Materyal Adı' },
     { key: "date", label: 'Materyal Tarihi' },
+    { key: "studentName", label: 'Uygulayan Öğrenci' },
     { key: "correctlyWordCount", label: 'Doğru Kelime Sayısı' },
-    { key: "totalWordCount", label: 'Toplam Kelime Sayısı' },
-    { key: "werScore", label: 'Kelime Tanıma Yüzdesi' },
+    { key: "werScore", label: 'Doğru Okuma Yüzdesi' },
     { key: "repeatedWords", label: 'Tekrarlı Kelimeler' },
 
 
@@ -46,6 +47,10 @@ function Okumalar() {
   console.log("filtered"+filteredOkuma);
 
   return (
+    <div className='py-0.5 space-y-10'>
+      <Helmet>
+        <title>Okumalar</title>
+      </Helmet>
     <div className='w-full flex justify-center'>
       <ToastContainer />
 
@@ -58,6 +63,7 @@ function Okumalar() {
 
     </div>
 
+    </div>
 </div>
   )
 }

@@ -10,26 +10,11 @@ module.exports = {
         primary:'#d2392e',//kırmızı
         secondary:'#f8fafc',//arkaplan
         tertiary:"#9ca3af",//gri gray-300
-        quaternary:"#6b7280", // koyu gri gray 400
+        green:"#c4e17f", // green
         
-        text_primary:"#52525b", //text-zinc-[600]
-        text_secondary:"#00ce98",// green
-
-        my_border_color:"#d4d4d8", //border-zinc-[300]
-        my_input_bg:"#f4f4f5", //bg-zinc-[100]
+       
       },
-      
-      height:{
-        "brands":"3.50rem",
-        "buttons-large":"3rem",
-        "buttons-normal":"2rem",
-        "buttons-small":"2rem",
-        "buttons-xsmall":"1.50rem"
-
-      },
-      width:{
-        "brands":"3.50rem"
-      },
+    
       fontFamily: {
         sans: ['Graphik', 'sans-serif'],
         serif: ['Merriweather', 'serif'],

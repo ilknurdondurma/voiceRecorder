@@ -7,6 +7,8 @@ import succesMessage from '../../helper/toasts/successMessage'
 import { getAllReport,} from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { Helmet } from 'react-helmet';
+
 function Skor() {
   const [reports , setReports]=useState([]);
   const token = JSON.parse(localStorage.getItem('token'));
@@ -35,17 +37,21 @@ function Skor() {
   const tableColumns = [
     { key: "textHeader", label: 'Materyal Adı' },
     { key: "date", label: 'Materyal Tarihi' },
+    { key: "studentName", label: 'Uygulayan Öğrenci' },
     { key: "correctlyWordCount", label: 'Doğru Kelime Sayısı' },
-    { key: "totalWordCount", label: 'Toplam Kelime Sayısı' },
-    { key: "werScore", label: 'Kelime Tanıma Yüzdesi' },
+    { key: "werScore", label: 'Doğru Okuma Yüzdesi' },
 
 
   ];
-  const filteredSkor = reports.filter((rep) => rep.studentId === userId);
-  console.log("filtered"+filteredSkor);
+  //const filteredSkor = reports.filter((rep) => rep.studentId === userId);
+  //console.log("filtered"+filteredSkor);
 
 
   return (
+    <div className='py-0.5 space-y-10'>
+      <Helmet>
+        <title>Skorlarım</title>
+      </Helmet>
     <div className='w-full flex justify-center'>
                   <ToastContainer />
 
@@ -54,10 +60,10 @@ function Skor() {
           <div>
               <Button variant="PrimaryOutline" className="my-5 text-black">Filtrele</Button>
           </div>
-          <Table data={filteredSkor} columns={tableColumns} route={"rapor"}/>
+          <Table data={reports} columns={tableColumns} route={"rapor"}/>
 
         </div>
-
+      </div>
     </div>
   )
 }

@@ -1,11 +1,9 @@
-import axios from "axios";
 import React, { useState, useEffect} from "react";
 import { BiSolidMicrophone, BiStop } from "react-icons/bi";
 import Button from '../../components/button/index'
-import { BsSendFill } from "react-icons/bs";
 import { FaCaretRight } from "react-icons/fa";
 import { FaHeadphonesAlt } from "react-icons/fa";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createReport } from "../../api";
 import succesMessage from "../../helper/toasts/successMessage";
 import errorMessage from "../../helper/toasts/errorMessage";
@@ -16,17 +14,13 @@ import { ToastContainer } from "react-toastify";
 const SoundRecorder = ({textId}) => {
     const [mediaStream, setMediaStream] = useState(null);
     const [audioContext, setAudioContext] = useState(null);
-    const [text, setText] = useState([]);
-    const [voice, setVoice] = useState([]);
-    const [microphone, setMicrophone] = useState(null);
     const [audioUrl, setAudioUrl] = useState(null);
     const [listening, setListening] = useState(false);
     const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(false);
     const [recorder, setRecorder] = useState(null);
-    const [showAudio, setShowAudio] = useState(true);
     const [loading, setLoading] = useState(false)
-    const formDataObject = JSON.parse(localStorage.getItem('user'));
+    const formDataObject = JSON.parse(localStorage.getItem('user'));   // NOT: burda user ıd vermeye gerek kalmadı tek bir adminle yapılcak flaan ya onu düzenlemek lazım
     const user=formDataObject?.id;
 
 
@@ -67,18 +61,11 @@ const SoundRecorder = ({textId}) => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             setMediaStream(stream);
-
             const context = new AudioContext();
             setAudioContext(context);
-
-            const mic = context.createMediaStreamSource(stream);
-            setMicrophone(mic);
-
             const newRecorder = new MediaRecorder(stream);
             setRecorder(newRecorder);
-
             const chunks = [];
-
             newRecorder.ondataavailable = function (event) {
                 if (event.data.size > 0) {
                     chunks.push(event.data);
@@ -137,37 +124,26 @@ const SoundRecorder = ({textId}) => {
 const sendAudioToAPI = async () => {
     console.log("göndere bastı")
     console.log(seconds)
-    // JSON verisi
+
     const jsonData = {
-      recordLength: seconds, 
+      recordLenght: seconds, 
       studentId: user, 
       textId: textId,
     };
 
-    // FormData oluştur
     const formData = new FormData();
-
-    // JSON verisini FormData'ya ekle
     formData.append("data", JSON.stringify(jsonData));
-
-    // Ses dosyasını FormData'ya ekle
     formData.append("audio", await fetch(audioUrl).then((res) => res.blob()), "recorded.wav");
 
-    // Axios kullanarak API'ye gönder
+    //API'ye gönder
     setLoading(true);
     createReport(formData)
       .then((response) => {
         console.log("API cevabı:", response.data);
-        if (response?.data?.message==="Rapor hazırlandı.") {
-          console.log(response.data.message);
-          setText((texts) => [...texts, response.data.message]);
-          setVoice((voice) => [...voice, response.data.filename]);
-          
-        }
         setLoading(false)
         console.log(response.data.data.id)
         navigate(`/rapor/${response.data.data.id}`)
-        succesMessage("basarılı")
+        succesMessage("Oluşturma Başarılı")
        
       })
       .catch((error) => {
@@ -235,9 +211,8 @@ const sendAudioToAPI = async () => {
             <audio src={audioUrl} controls className="w-full" />
 
             <Button 
-                className={`m-3 p-4 rounded-xl cursor-pointer ${loading ?'opacity-50':''}`}
+                className={`m-3 p-4 border-2 rounded-xl cursor-pointer bg-primary ${loading ?'opacity-50':''}`}
                // disabled={showAudio}
-                variant="GreenButton"
                 size="large"
                 onClick={sendAudioToAPI}
                 >
