@@ -3,7 +3,7 @@ import Button from '../../components/button/index'
 import { FaBookOpenReader } from "react-icons/fa6";
 import Table from '../../components/table/index'
 import { useNavigate } from 'react-router-dom';
-import { getAllReport } from '../../api';
+import { getAllStandartReport } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
 import { ToastContainer } from 'react-toastify';
@@ -20,7 +20,7 @@ function Okumalar() {
       navigate('/login', {replace:true})
     }
 
-    getAllReport()
+    getAllStandartReport()
     .then((result)=>{
       setReports(result?.data.data)
       console.log(reports)
@@ -36,7 +36,7 @@ function Okumalar() {
   const tableColumns = [
     { key: "textHeader", label: 'Materyal Adı' },
     { key: "date", label: 'Materyal Tarihi' },
-    { key: "studentName", label: 'Uygulayan Öğrenci' },
+    { key: "studentFullName", label: 'Uygulayan Öğrenci' },
     { key: "correctlyWordCount", label: 'Doğru Kelime Sayısı' },
     { key: "werScore", label: 'Doğru Okuma Yüzdesi' },
     { key: "repeatedWords", label: 'Tekrarlı Kelimeler' },
@@ -59,7 +59,7 @@ function Okumalar() {
       <div>
           <Button variant="PrimaryOutline" className="my-5 text-black">Filtrele</Button>
       </div>
-      <Table data={filteredOkuma} columns={tableColumns}  route={"okuma"}/>
+      <Table data={reports} columns={tableColumns}  route={"okuma"}/>
 
     </div>
 

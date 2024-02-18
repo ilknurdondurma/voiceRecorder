@@ -6,9 +6,9 @@ import {BiSolidBookAdd } from "react-icons/bi";
 import { PiExamLight } from "react-icons/pi";
 import { MdChevronRight } from "react-icons/md";
 import RoundProgressBar from '../progressBar';
-import { getAllReport } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
+import { getAllStandartReport } from '../../api';
 function Sidebar() {
   const sidebarElements = [
     {
@@ -41,7 +41,7 @@ function Sidebar() {
   const formDataObject = JSON.parse(localStorage.getItem('user'));
   const userId=formDataObject?.id;
   useEffect(() => {
-    getAllReport()
+    getAllStandartReport()
     .then((result)=>{
       setReports(result?.data.data)
       console.log(reports)
@@ -55,11 +55,11 @@ function Sidebar() {
 
   // kullanıcıya ait son raporu göstermek için
   const filteredReports = reports.filter((rep) => rep.studentId === userId);
-  const lastReport = filteredReports[filteredReports.length - 1];
+  const lastReport = reports[reports.length - 1];
   const progressValue = lastReport ? parseFloat(lastReport.werScore).toFixed(2) : '0.00';
 
     const goReportHandle = () => {
-      if (filteredReports.length === 0) {
+      if (reports.length === 0) {
         navigate("/404");
       } 
      else{

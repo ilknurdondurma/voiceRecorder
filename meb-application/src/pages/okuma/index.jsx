@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Text } from '../../helper/text/index';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { getReportById, getTextById } from '../../api';
+import { getStandartReportById, getTextById } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
 import { Helmet } from 'react-helmet';
@@ -18,7 +18,7 @@ function Okuma() {
           navigate('/login', { replace: true });
         }
     
-        getReportById(id)
+        getStandartReportById(id)
           .then((result) => {
             setReport(result?.data.data);
             console.log(report);

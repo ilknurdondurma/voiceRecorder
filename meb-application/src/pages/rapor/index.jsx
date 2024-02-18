@@ -6,7 +6,7 @@ import { LuRepeat2 } from "react-icons/lu";
 import { TiTick } from "react-icons/ti";
 import PieChart from '../../components/charts/pieChart'
 import { useNavigate, useParams } from 'react-router-dom';
-import { getReportById } from '../../api';
+import { getStandartReportById } from '../../api';
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
 import {convertedDate} from '../../helper/convertToDateTime'
@@ -25,7 +25,7 @@ function Rapor() {
     if(token==null){
       navigate('/login', {replace:true})
     }
-    getReportById(id)
+    getStandartReportById(id)
       .then((result)=>{
         setReport(result?.data.data)
         console.log(report)
@@ -80,7 +80,7 @@ function Rapor() {
           Değerlendirme Sonucu
         </h1>
         <h3 className='text-l mb-5 text-center text-gray-600 border-b-2'>
-          {report?.studentName} - { convertedDate(report?.date)}
+          {report?.studentFullName} - { convertedDate(report?.date)}
         </h3>
         <h1 className='text-gray-600 text-lg  text-center flex justify-center pb-2 p-1'>
           Değerlendirilen Materyal : <span className='text-md font-bold'>{report?.textHeader}</span>

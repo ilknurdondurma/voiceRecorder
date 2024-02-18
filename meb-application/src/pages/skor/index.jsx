@@ -4,7 +4,7 @@ import Table from '../../components/table';
 import Button from '../../components/button/index'
 import errorMessage from '../../helper/toasts/errorMessage'
 import succesMessage from '../../helper/toasts/successMessage'
-import { getAllReport,} from '../../api';
+import { getAllStandartReport,} from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Helmet } from 'react-helmet';
@@ -21,7 +21,7 @@ function Skor() {
       navigate('/login', {replace:true})
     }
 
-    getAllReport()
+    getAllStandartReport()
     .then((result)=>{
       setReports(result?.data.data)
       console.log(reports)
@@ -37,7 +37,7 @@ function Skor() {
   const tableColumns = [
     { key: "textHeader", label: 'Materyal Adı' },
     { key: "date", label: 'Materyal Tarihi' },
-    { key: "studentName", label: 'Uygulayan Öğrenci' },
+    { key: "studentFullName", label: 'Uygulayan Öğrenci' },
     { key: "correctlyWordCount", label: 'Doğru Kelime Sayısı' },
     { key: "werScore", label: 'Doğru Okuma Yüzdesi' },
 

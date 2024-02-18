@@ -7,7 +7,7 @@ import succesMessage from '../../helper/toasts/successMessage'
 import { ToastContainer } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 
-function VoiceRecord({studentName,studentSurname,studentClass}) {
+function VoiceRecord({}) {
   const token = JSON.parse(localStorage.getItem('token'));
   const navigate=useNavigate();
   const { id } = useParams();
@@ -61,7 +61,7 @@ function VoiceRecord({studentName,studentSurname,studentClass}) {
         cols={100} // İstersen sütun sayısını belirleyebilirsin
         readOnly
       />
-      <SoundRecorder textId={text.id}/>
+      <SoundRecorder textId={text.id} textContent={textContent} student={formValues.name+" "+formValues.surname}/>
     </div>
     </div>
   )

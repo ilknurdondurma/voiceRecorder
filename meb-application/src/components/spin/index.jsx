@@ -7,7 +7,7 @@ const  Spin =({label})=>{
 }, []);
   
     return(
-      <div className="spinner-container">
+      <div className="spinner-container flex">
             <div className="spinner">
             </div>
       </div>

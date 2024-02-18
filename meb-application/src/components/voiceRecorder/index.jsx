@@ -4,14 +4,14 @@ import Button from '../../components/button/index'
 import { FaCaretRight } from "react-icons/fa";
 import { FaHeadphonesAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { createReport } from "../../api";
+import { createStandartReport } from "../../api";
 import succesMessage from "../../helper/toasts/successMessage";
 import errorMessage from "../../helper/toasts/errorMessage";
 import Spin from '../spin/index'
 import { ToastContainer } from "react-toastify";
 
 
-const SoundRecorder = ({textId}) => {
+const SoundRecorder = ({textId ,textContent,student}) => {
     const [mediaStream, setMediaStream] = useState(null);
     const [audioContext, setAudioContext] = useState(null);
     const [audioUrl, setAudioUrl] = useState(null);
@@ -20,8 +20,6 @@ const SoundRecorder = ({textId}) => {
     const [isActive, setIsActive] = useState(false);
     const [recorder, setRecorder] = useState(null);
     const [loading, setLoading] = useState(false)
-    const formDataObject = JSON.parse(localStorage.getItem('user'));   // NOT: burda user ıd vermeye gerek kalmadı tek bir adminle yapılcak flaan ya onu düzenlemek lazım
-    const user=formDataObject?.id;
 
 
     const navigate=useNavigate();
@@ -126,9 +124,10 @@ const sendAudioToAPI = async () => {
     console.log(seconds)
 
     const jsonData = {
-      recordLenght: seconds, 
-      studentId: user, 
+      recordLenght: seconds??0, 
+      studentFullName: student??"", 
       textId: textId,
+      text:textContent??""
     };
 
     const formData = new FormData();
@@ -137,7 +136,7 @@ const sendAudioToAPI = async () => {
 
     //API'ye gönder
     setLoading(true);
-    createReport(formData)
+    createStandartReport(formData)
       .then((response) => {
         console.log("API cevabı:", response.data);
         setLoading(false)
@@ -196,7 +195,8 @@ const sendAudioToAPI = async () => {
       //         setLoading(false)
       //     });
   //       };
-    return (
+    
+  return (
         <div className="w-full h-full flex flex-col">
             <ToastContainer />
         <div className="flex flex-col items-center justify-center gap-4 ">
@@ -208,16 +208,16 @@ const sendAudioToAPI = async () => {
                 )}
                 <span className="flex justify-center border-2 border-gray-400 py-3 px-4 rounded-xl cursor-pointer" onClick={stopRecording}><FaHeadphonesAlt className="mr-3"  />Bitir </span>
             </div>
-            <audio src={audioUrl} controls className="w-full" />
+            <audio src={audioUrl} controls className={`w-full `} />
 
-            <Button 
-                className={`m-3 p-4 border-2 rounded-xl cursor-pointer bg-primary ${loading ?'opacity-50':''}`}
-               // disabled={showAudio}
+            <button 
+                className={`m-3 p-4 border-2 rounded-xl text-sm cursor-pointer bg-primary text-white ${loading ?'opacity-50':''}${audioUrl===null ?'opacity-50':''}`}
+                disabled={audioUrl===null}
                 size="large"
                 onClick={sendAudioToAPI}
                 >
-                {loading ? <Spin /> : 'Gönder'}
-            </Button>
+                {loading ? "Gönderiliyor" : 'Gönder'}
+            </button>
 
         </div>
         

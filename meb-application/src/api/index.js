@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API=axios.create({baseURL:'http://localhost:5019/api/v2'})
+const API=axios.create({baseURL:'https://192.168.1.106:8083/api/v2'})
 
 
 const token = JSON.parse(localStorage.getItem('token'));
@@ -28,9 +28,14 @@ export const getAllText = () => API.get('/Text')
 export const getTextById = (id) => API.get(`/Text/${id}`)
 
 //rapor
-export const getAllReport = () => API.get('/Quiz')
-export const getReportById = (id) => API.get(`/Quiz/${id}`)
-export const createReport = (formData) => API.post(`/Quiz`,formData, {headers: {'Content-Type':'multipart/form-data'}})
+export const getAllStandartReport = () => API.get('/Quiz/Standart/GetAll')
+export const getAllCEFRReport = () => API.get('/Quiz/CEFR/GetAll')
+export const getStandartReportById = (id) => API.get(`/Quiz/Standart/${id}`)
+export const getCEFRReportById = (id) => API.get(`/Quiz/CEFR/${id}`)
+
+export const createStandartReport = (formData) => API.post(`/Quiz/Standart`,formData, {headers: {'Content-Type':'multipart/form-data'}})
+export const createCEFRReport = (formData) => API.post(`/Quiz/CEFR`,formData, {headers: {'Content-Type':'multipart/form-data'}})
+
 
 
 
