@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
-const VerticalBarChart = ({ cefr }) => {
+const VerticalBarChart = ({ cefr="A1" }) => {
   const chartRef = useRef(null);
   const data = [
     { label: 'A1', value: 20 },
@@ -19,22 +19,31 @@ const VerticalBarChart = ({ cefr }) => {
     const labels = data.map(item => item.label);
     const values = data.map(item => item.value);
 
-    let maxIndex = 0;
-
-    // Determine the CEFR level based on the cefr value
-    if (cefr >= 95) {
+    // cefr değerine eşit olan çubuğun indeksini bul
+    let maxIndex = 1;
+    if (cefr ==='C2') {
       maxIndex = 5; // C2 level
-    } else if (cefr >= 80) {
-      maxIndex = 4; // C1 level
-    } else if (cefr >= 60) {
-      maxIndex = 3; // B2 level
-    } else if (cefr >= 40) {
-      maxIndex = 2; // B1 level
-    } else if (cefr >= 20) {
-      maxIndex = 1; // A2 level
-    } else {
-      maxIndex = 0; // A1 level
     }
+    else if (cefr ==='C1') {
+      maxIndex = 4; // C1 level
+    } 
+    else if (cefr ==='B2') {
+      maxIndex = 3; // B2 level
+    } 
+    else if (cefr ==='B1') {
+      maxIndex = 2; // B1 level
+    } 
+    else if (cefr ==='A2') {
+      maxIndex = 1; // A2 level
+    } 
+    else if (cefr ==='A1') {
+      maxIndex = 0; // A2 level
+    }
+    else {
+      maxIndex = -1; // UNDEFİNED level
+    }
+
+    
 
     const option = {
       xAxis: {

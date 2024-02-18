@@ -9,7 +9,7 @@ import { GrFormNextLink } from "react-icons/gr";
 import EchartsBarChart from "../../../components/charts/barChart";
 import VerticalBarChart from "../../../components/charts/verticalBarChart";
 import { Helmet } from "react-helmet";
-import { createCEFRReport, createStandartReport, getAllText } from "../../../api";
+import { createAttempt, createReport, createStandartReport, getAllText } from "../../../api";
 import errorMessage from "../../../helper/toasts/errorMessage";
 import { ToastContainer } from "react-toastify";
 import succesMessage from "../../../helper/toasts/successMessage";
@@ -83,7 +83,7 @@ function Test() {
 export default Test;
 
 
-const Test1=({studentFullName})=>{
+const Test1=()=>{
   const metinler = [
     {text:"Matematikte açılar konusuna geçtik."},
     {text:"Bir yağmur yağsında bir şarkı çalsın."},
@@ -105,6 +105,8 @@ const Test1=({studentFullName})=>{
   const [audio, setAudio] = useState(null);
   const [loading, setLoading] = useState(false);
   const [read, setRead] = useState(false);
+  const [attempt, setAttempt] = useState(1);
+
 
 
   useEffect(() => {
@@ -204,34 +206,36 @@ const Test1=({studentFullName})=>{
     setListening(false);
   };
 
-  // const sendToAPI = async () => {
-  //   console.log("test1 göndere bastı");
-  //   console.log(seconds);
+  const sendToAPI = async () => {
+    await setAttempt(attempt+1);
+
+    console.log("test1 göndere bastı");
+    console.log(seconds);
+    const quizId=JSON.parse(localStorage.getItem('quizId'))
+    const jsonData = {
+      "quizId":quizId,
+      "attempt":attempt,
+      "stage":1,
+      "text":text
+    };
   
-  //   const jsonData = {
-  //     recordLenght: seconds ?? 0,
-  //     studentFullName: studentFullName ?? "",
-  //     text: text ?? "",
-  //   };
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(jsonData));
+    formData.append("audio", await fetch(audioUrl).then((res) => res.blob()), "recorded.wav");
   
-  //   const formData = new FormData();
-  //   formData.append("data", JSON.stringify(jsonData));
-  //   formData.append("audio", await fetch(audioUrl).then((res) => res.blob()), "recorded.wav");
-  
-  //   // API'ye gönder
-  //   setLoading(true);
-  //   try {
-  //     const response = await createCEFRReport(formData);
-  //     setLoading(false);
-  //     console.log("API cevabı:", response.data);
-  //     console.log(response.data.data.id);
-  //     succesMessage("başarılı işler söz konusu ");
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.error("API hatası:", error);
-  //     errorMessage(`API hatası: ${error.message}`);
-  //   }
-  // };
+    // API'ye gönder
+    setLoading(true);
+    try {
+      const response = await createAttempt(formData);
+      setLoading(false);
+      console.log("API cevabı:", response.data);
+      succesMessage("başarılı işler söz konusu ");
+    } catch (error) {
+      setLoading(false);
+      console.error("API hatası:", error);
+      errorMessage(`API hatası: ${error.message}`);
+    }
+  };
   
 
 
@@ -370,19 +374,19 @@ const Test1=({studentFullName})=>{
                     Kayıt Durdur
                   </div>
                 </div>
-                <div className="mr-10 sm:flex" onClick={()=>{}}> {/**sendToApi();*/}
+                <button className={`mr-10 sm:flex ${audioUrl===null || attempt>=3 ?"opacity-50":""}`} disabled={audioUrl===null || attempt>=3} onClick={()=>{sendToAPI();}}> {/**sendToAPI();*/}
                   <div className="cursor-pointer self-center rounded-full p-5 sm:p-3">
                     <FaCheck size="25px" className="m-1" />
                   </div>
-                  {loading?"Gönderiliyor":"Kontrol Et"}
-                </div>
+                  {loading?"Gönderiliyor":`${attempt>=3?"Hakkınız Doldu":"Kontrol Et"}`}
+                </button>
             </div>
           
         </div>
       </div>
   )
 }
-const Test2=({studentFullName})=>{
+const Test2=()=>{
   const metinler = [
     {text:"Matematikte ....... konusuna geçtik.",correctWord:"açılar",otherOptions:["deyimler" , "atasözleri" ,"açılar"]},
     {text:"Bir ....... yağsında bir şarkı çalsın.",correctWord:"yağmur",otherOptions:["yağmur" , "kar" ,"dolu"]},
@@ -404,6 +408,10 @@ const Test2=({studentFullName})=>{
   const [audio, setAudio] = useState(null);
   const [loading, setLoading] = useState(false);
   const [read, setRead] = useState(false);
+  const [attempt, setAttempt] = useState(1);
+  const [checkWrongWords, setCheckWrongWords] = useState([]);
+
+
 
 
   useEffect(() => {
@@ -500,6 +508,38 @@ const Test2=({studentFullName})=>{
 
     setListening(false);
   };
+  const sendToAPI = async () => {
+    await setAttempt(attempt+1);
+
+    console.log("test2 göndere bastı");
+    console.log(seconds);
+    const quizId=JSON.parse(localStorage.getItem('quizId'))
+    const jsonData = {
+      "quizId":quizId,
+      "attempt":attempt,
+      "stage":2,
+      "text":text
+    };
+  
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(jsonData));
+    formData.append("audio", await fetch(audioUrl).then((res) => res.blob()), "recorded.wav");
+  
+    // API'ye gönder
+    setLoading(true);
+    try {
+      const response = await createAttempt(formData);
+      setLoading(false);
+      console.log("API cevabı:", response.data);
+      setCheckWrongWords(response.data.data.wrongWords);
+      console.log("wrooong :"+checkWrongWords)
+      succesMessage("başarılı işler söz konusu ");
+    } catch (error) {
+      setLoading(false);
+      console.error("API hatası:", error);
+      errorMessage(`API hatası: ${error.message}`);
+    }
+  };
 
 
   /*************************************************************************** */
@@ -557,20 +597,35 @@ const Test2=({studentFullName})=>{
                       }}
                     >
                       {word}
-                    </span>{" "}
+                    </span>
                   </span>
                 ))}
           </div>
         </div>
         <div className="options-sections my-10 self-center grid grid-cols-5 gap-5">
-          <div className="col-span-2 md:col-span-3 sm:col-span-3 shadow-md bg-primary/30 rounded-xl p-5 flex flex-col">
-              Doğru seçenek aşağıdakilerden hangisidir ?
-              {texts[textIndex].otherOptions.map((option, index) => (
-              <div key={index} className="shadow-md  rounded-xl p-5 flex flex-col border-2">
+        <div className="col-span-2 md:col-span-3 sm:col-span-3 shadow-md bg-primary/30 rounded-xl p-5 flex flex-col">
+          Doğru seçenek aşağıdakilerden hangisidir ?
+          { console.log(checkWrongWords)}
+          {texts[textIndex].otherOptions.map((option, index) => {
+            let backgroundColor = "";
+            if (checkWrongWords.includes(texts[textIndex].correctWord)) {
+              backgroundColor = option === texts[textIndex].correctWord ? "bg-green" : ""; // Doğru cevap yeşil, diğerleri default
+            } else if (checkWrongWords.includes(option)) {
+              backgroundColor = "bg-red-300"; // Yanlış cevap kırmızı
+            }
+
+            return (
+              <div key={index} className={`shadow-md rounded-xl p-5 flex flex-col border-2 ${backgroundColor}`}>
                 {option}
               </div>
-            ))}
-          </div>
+            );
+          })}
+        </div>
+
+
+
+
+
           <div className="col-span-3 md:col-span-3 sm:col-span-2 record-section self-center my-10 mr-10 flex sm:flex-col ">
               <div className="mr-10 sm:flex">
                       <div src={audioUrl}
@@ -609,19 +664,19 @@ const Test2=({studentFullName})=>{
                     Kayıt Durdur
                   </div>
                 </div>
-                <div className="mr-10 sm:flex">
+                <button className={`mr-10 sm:flex ${audioUrl===null || attempt>=3 ?"opacity-50":""}`} disabled={audioUrl===null || attempt>=3} onClick={()=>{sendToAPI();}}> {/**sendToAPI();*/}
                   <div className="cursor-pointer self-center rounded-full p-5 sm:p-3">
                     <FaCheck size="25px" className="m-1" />
                   </div>
-                  {loading?"Gönderiliyor":"Kontrol Et"}
-                </div>
+                  {loading?"Gönderiliyor":`${attempt>=3?"Hakkınız Doldu":"Kontrol Et"}`}
+                </button>
           </div>
          
         </div>
       </div>
   )
 }
-const Test3=({studentFullName})=>{
+const Test3=()=>{
 
   const [texts, setTexts] = useState([]);
   const [textIndex, setTextIndex] = useState(0);
@@ -635,9 +690,11 @@ const Test3=({studentFullName})=>{
   const [listening, setListening] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [recorder, setRecorder] = useState(null);
-  const [read, setRead] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [audio, setAudio] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [read, setRead] = useState(false);
+  const [attempt, setAttempt] = useState(1);
 
   useEffect(() => {
     getAllText()
@@ -746,7 +803,36 @@ const Test3=({studentFullName})=>{
 
     setListening(false);
   };
+  const sendToAPI = async () => {
+    await setAttempt(attempt+1);
 
+    console.log("test1 göndere bastı");
+    console.log(seconds);
+    const quizId=JSON.parse(localStorage.getItem('quizId'))
+    const jsonData = {
+      "quizId":quizId,
+      "attempt":attempt,
+      "stage":3,
+      "text":text
+    };
+  
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(jsonData));
+    formData.append("audio", await fetch(audioUrl).then((res) => res.blob()), "recorded.wav");
+  
+    // API'ye gönder
+    setLoading(true);
+    try {
+      const response = await createAttempt(formData);
+      setLoading(false);
+      console.log("API cevabı:", response.data);
+      succesMessage("başarılı işler söz konusu ");
+    } catch (error) {
+      setLoading(false);
+      console.error("API hatası:", error);
+      errorMessage(`API hatası: ${error.message}`);
+    }
+  };
 
   /*************************************************************************** */
   const handleChangeText = () => {
@@ -836,12 +922,12 @@ const Test3=({studentFullName})=>{
                   </div>
                   <span>Kayıt Durdur</span>
                 </div>
-                <div className="mr-10">
-                  <div className="cursor-pointer self-center rounded-full p-5">
+                <button className={`mr-10 sm:flex ${audioUrl===null || attempt>=3 ?"opacity-50":""}`} disabled={audioUrl===null || attempt>=3} onClick={()=>{sendToAPI();}}> {/**sendToAPI();*/}
+                  <div className="cursor-pointer self-center rounded-full p-5 sm:p-3">
                     <FaCheck size="25px" className="m-1" />
                   </div>
-                  <span>Kontrol Et</span>
-                </div>
+                  {loading?"Gönderiliyor":`${attempt>=3?"Hakkınız Doldu":"Kontrol Et"}`}
+                </button>
               </div>
             </div>
         </div>
@@ -856,8 +942,8 @@ const Sonuc=()=>{
       <div className="flex justify-center">
         <h1 className="my-5 border-2 rounded-full p-8 text-md w-28  m-3 font-bold">B2 seviye </h1>
       </div>
-      <h1 className="text-xl flex justify-center my-5">CEFR SEVİYESİ : </h1>
-      <div className="flex justify-center"><VerticalBarChart cefr={65}  /></div>
+      <h1 className="text-xl flex justify-center my-5"> SEVİYESİ : </h1>
+      <div className="flex justify-center"><VerticalBarChart cefr={"B2"}  /></div>
     </div>
   )
 }

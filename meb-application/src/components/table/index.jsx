@@ -136,13 +136,19 @@ const useSortableData = (items, initialSortBy) => {
 
       // Check if values are defined before using localeCompare
       if (aValue !== undefined && bValue !== undefined) {
-        // Eğer sayısal bir karşılaştırma mümkünse, sayısal sıralama yap
-        if (!isNaN(aValue) && !isNaN(bValue)) {
-          const numericComparison = (parseFloat(aValue) || 0) - (parseFloat(bValue) || 0);
-          return sortDesc ? -numericComparison : numericComparison;
+        // If the values are arrays, compare their lengths
+        if (Array.isArray(aValue) && Array.isArray(bValue)) {
+          const aLength = aValue.length;
+          const bLength = bValue.length;
+          return sortDesc ? bLength - aLength : aLength - bLength;
         } else {
-          // Eğer sayısal bir karşılaştırma mümkün değilse, string sıralama yap
-          return sortDesc ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue);
+          // If the values are not arrays, use default comparison
+          if (!isNaN(aValue) && !isNaN(bValue)) {
+            const numericComparison = (parseFloat(aValue) || 0) - (parseFloat(bValue) || 0);
+            return sortDesc ? -numericComparison : numericComparison;
+          } else {
+            return sortDesc ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue);
+          }
         }
       }
       
@@ -163,6 +169,7 @@ const useSortableData = (items, initialSortBy) => {
 
   return { sortedData, sortByColumn, initialSortBy };
 };
+
 
   
   

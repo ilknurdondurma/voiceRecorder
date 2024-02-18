@@ -5,6 +5,10 @@ import { Form, Formik } from 'formik';
 import { studentSchema } from '../../validation/student';
 import Input from '../../components/Input/text';
 import DropDown from '../../components/Input/dropdown';
+import { createStartCEFRReport } from '../../api';
+import succesMessage from '../../helper/toasts/successMessage';
+import errorMessage from '../../helper/toasts/errorMessage';
+import { ToastContainer } from 'react-toastify';
 
 function YeniTest() {
   const [showModal, setShowModal] = useState(true); // State for modal visibility
@@ -17,9 +21,27 @@ function YeniTest() {
     { value: 3, label: "3. Sınıf" },
     { value: 4, label: "4. Sınıf" },]
 
-  const handleSubmit=(values)=>{
+  const handleSubmit=async (values)=>{
     console.log(values);
-    navigate(`/test`, { state: values })
+    var formData ={
+      "studentFullName": values?.name+" "+values?.surname,
+      "class": values?.class,
+    }
+    try {
+          const response = await createStartCEFRReport(formData);
+          console.log("API cevabı:", response.data);
+
+          const quizİd=response.data.data.id;
+          localStorage.setItem("quizId",JSON.stringify(quizİd))
+          console.log(quizİd);
+
+          succesMessage("başarılı işler söz konusu ");
+          navigate(`/test`, { state: values })
+          
+        } catch (error) {
+          console.error("API hatası:", error);
+          errorMessage(`API hatası: ${error.message}`);
+        }    
 
 
   
@@ -27,6 +49,7 @@ function YeniTest() {
 
   return (
     <div className="fixed">
+        <ToastContainer/>
         <div className='bg-primary w-28 h-auto text-white p-3 rounded-xl hover:underline cursor-pointer' onClick={() => openModal()}>Yeni Test</div>
         <Modal show={showModal} handleClose={closeModal}>
             <Formik
@@ -38,6 +61,7 @@ function YeniTest() {
               }}
               onSubmit={(values) => {
                 handleSubmit(values); // handleSubmit fonksiyonuna sadece form değerlerini gönderiyoruz
+                
               }}
             >
               {({ setFieldValue }) => (
