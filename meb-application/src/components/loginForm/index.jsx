@@ -46,7 +46,7 @@ const handleSubmit = (values, setSubmitting) => {
             })
             .catch(error => {
               console.error("login error:", error);
-              errorMessage(error.data?.error || "An error occurred");
+              errorMessage(error);
               setSubmitting(false);
             });
 };

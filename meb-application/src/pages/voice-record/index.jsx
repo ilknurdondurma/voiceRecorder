@@ -16,9 +16,9 @@ function VoiceRecord({}) {
   const formValues = location.state;
 
   useEffect(() => {
-    if(token==null){
-      navigate('/login', {replace:true})
-    }
+    // if(token==null){
+    //   navigate('/login', {replace:true})
+    // }
 
     getTextById(id)
       .then((result) => {

@@ -11,7 +11,7 @@ import errorMessage from '../../helper/toasts/errorMessage';
 import { ToastContainer } from 'react-toastify';
 
 function YeniTest() {
-  const [showModal, setShowModal] = useState(true); // State for modal visibility
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
   const navigate = useNavigate();
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);

@@ -9,11 +9,11 @@ function Home() {
   const user=formDataObject?.username;
   const token = JSON.parse(localStorage.getItem('token'));
   const navigate=useNavigate();
-  useEffect(() => {
-    if(token==null){
-      navigate('/login', {replace:true})
-    }
-  }, [token])
+  // useEffect(() => {
+  //   if(token==null){
+  //     navigate('/login', {replace:true})
+  //   }
+  // }, [token])
   
   const spinn=async ()=>{
     setLoading(true)

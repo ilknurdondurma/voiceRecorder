@@ -17,9 +17,9 @@ function Skor() {
   const navigate=useNavigate();
 
   useEffect(() => {
-    if(token==null){
-      navigate('/login', {replace:true})
-    }
+    // if(token==null){
+    //   navigate('/login', {replace:true})
+    // }
 
     getAllStandartReport()
     .then((result)=>{

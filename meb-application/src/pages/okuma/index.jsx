@@ -14,9 +14,9 @@ function Okuma() {
     const token = JSON.parse(localStorage.getItem('token'));
     const navigate=useNavigate();
     useEffect(() => {
-        if (token == null) {
-          navigate('/login', { replace: true });
-        }
+        // if (token == null) {
+        //   navigate('/login', { replace: true });
+        // }
     
         getStandartReportById(id)
           .then((result) => {

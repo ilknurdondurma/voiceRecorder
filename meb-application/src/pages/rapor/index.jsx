@@ -22,9 +22,9 @@ function Rapor() {
 
 
   useEffect(() => {
-    if(token==null){
-      navigate('/login', {replace:true})
-    }
+    // if(token==null){
+    //   navigate('/login', {replace:true})
+    // }
     getStandartReportById(id)
       .then((result)=>{
         setReport(result?.data.data)

@@ -40,9 +40,9 @@ function YeniOkuma() {
 
 
   useEffect(() => {
-    if(token==null){
-      navigate('/login', {replace:true})
-    }
+    // if(token==null){
+    //   navigate('/login', {replace:true})
+    // }
     getAllText()
       .then((result)=>{
         setTexts(result?.data.data)

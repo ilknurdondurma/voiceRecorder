@@ -1,21 +1,24 @@
 import axios from "axios";
 
 const API=axios.create({baseURL:'https://192.168.1.106:8083/api/v2'})
-const token = JSON.parse(localStorage.getItem('token'));
+
+// const token = JSON.parse(localStorage.getItem('token'));
 
 
-API.interceptors.request.use(
-  (config) => {
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
+// API.interceptors.request.use(
+//   (config) => {
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
     
-  }
-);
+//   }
+// );
+//tts
+export const TTS = (data) => API.post('/Quiz/TTS', data)
 
 //user
 export const signUp = (user) => API.post('/Auth/SignUp', user)
