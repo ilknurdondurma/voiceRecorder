@@ -25,6 +25,11 @@ function Test3() {
   const [loading, setLoading] = useState(false);
   const [read, setRead] = useState(false);
   const [attempt, setAttempt] = useState(1);
+  const [cefrLevel,setCefrLevel]=useState("")
+//chartttttt
+const [attempt1, setAttempt1] = useState(0);
+const [attempt2, setAttempt2] = useState(0);
+const [attempt3, setAttempt3] = useState(0);
 
   useEffect(() => {
     getAllText()
@@ -133,6 +138,25 @@ function Test3() {
 
     setListening(false);
   };
+  function cefrConverter(level) {
+    switch (level) {
+      case 'A1':
+        return 'T1';
+      case 'A2':
+        return 'T2';
+      case 'B1':
+        return 'R1';
+      case 'B2':
+        return 'R2';
+      case 'C1':
+        return 'TR1';
+      case 'C2':
+        return 'TR2';
+      default:
+        return 'Geçersiz Seviye';
+    }
+  }
+  
   const sendToAPI = async () => {
     await setAttempt(attempt+1);
 
@@ -157,18 +181,30 @@ function Test3() {
       setLoading(false);
       console.log("API cevabı:", response.data);
       if(attempt===1){
-        setAttempt1(response.data.data.werScore)
-        localStorage.setItem("werScore3",response.data.data.werScore)
+        await setAttempt1(response.data.data.werScore||0)
+        console.log("attemteki wer:", attempt1);
+        console.log("API dönen", response.data.data.werScore);
+        await setCefrLevel(cefrConverter(response.data.data.cefrLevel))
+        localStorage.setItem("cefrLevel",cefrConverter(response.data.data.cefrLevel)||0)
+        localStorage.setItem("werScore3",response.data.data.werScore||0)
 
       }
       if(attempt===2){
-        setAttempt2(response.data.data.werScore)
-        localStorage.setItem("werScore3",response.data.data.werScore)
+        await setAttempt2(response.data.data.werScore||0)
+        console.log("attemteki wer:", attempt2);
+        console.log("API dönen", response.data.data.werScore)
+        await setCefrLevel(cefrConverter(response.data.data.cefrLevel))
+        localStorage.setItem("cefrLevel",cefrConverter(response.data.data.cefrLevel)||0)
+        localStorage.setItem("werScore3",response.data.data.werScore||0)
 
       }
       if(attempt===3){
-        setAttempt3(response.data.data.werScore)
-        localStorage.setItem("werScore3",response.data.data.werScore)
+        await setAttempt3(response.data.data.werScore||0)
+        console.log("attemteki wer:", attempt3);
+        console.log("API dönen", response.data.data.werScore)
+        await setCefrLevel(cefrConverter(response.data.data.cefrLevel))
+        localStorage.setItem("cefrLevel",cefrConverter(response.data.data.cefrLevel)||0)
+        localStorage.setItem("werScore3",response.data.data.werScore||0)
 
       }
       succesMessage("başarılı işler söz konusu ");
@@ -205,10 +241,8 @@ function Test3() {
   };
 
 
-  //chartttttt
-  const [attempt1, setAttempt1] = useState(0);
-  const [attempt2, setAttempt2] = useState(0);
-  const [attempt3, setAttempt3] = useState(0);
+  
+
 
 
   const data = [
@@ -298,8 +332,8 @@ function Test3() {
          <MemoizedEchartsBarChart data={data} />
       </div>
       <div className="flex justify-center">
-         <h1 className="my-5 border-2 rounded-full p-8 text-md w-28  m-3 font-bold">B2 seviye </h1>
-   </div>
+         <h1 className="my-5 border-2 rounded-full p-8 text-md w-28  m-3 font-bold flex justify-center">{cefrLevel} </h1>
+      </div>
       </>
   )
 }

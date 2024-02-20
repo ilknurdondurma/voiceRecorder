@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
-const VerticalBarChart = ({ cefr="A1" }) => {
+const VerticalBarChart = ({ cefr=70 }) => {
   const chartRef = useRef(null);
   const data = [
-    { label: 'A1', value: 20 },
-    { label: 'A2', value: 40 },
-    { label: 'B1', value: 60 },
-    { label: 'B2', value: 80 },
-    { label: 'C1', value: 95 },
-    { label: 'C2', value: 100 },
+    { label: 'T1', value: (100/6)*1 },
+    { label: 'T2', value: (100/6)*2 },
+    { label: 'R1', value: (100/6)*3 },
+    { label: 'R2', value: (100/6)*4 },
+    { label: 'TR1', value: (100/6)*5 },
+    { label: 'TR2', value: 100 },
   ];
 
   useEffect(() => {
@@ -21,23 +21,24 @@ const VerticalBarChart = ({ cefr="A1" }) => {
 
     // cefr değerine eşit olan çubuğun indeksini bul
     let maxIndex = 1;
-    if (cefr ==='C2') {
-      maxIndex = 5; // C2 level
+
+    if ( 0 < cefr && cefr <= data[1].value) {
+      maxIndex = 0; // A1 level
     }
-    else if (cefr ==='C1') {
-      maxIndex = 4; // C1 level
-    } 
-    else if (cefr ==='B2') {
-      maxIndex = 3; // B2 level
-    } 
-    else if (cefr ==='B1') {
-      maxIndex = 2; // B1 level
-    } 
-    else if (cefr ==='A2') {
+    else if (data[0].value < cefr && cefr <= data[1].value) {
       maxIndex = 1; // A2 level
     } 
-    else if (cefr ==='A1') {
-      maxIndex = 0; // A2 level
+    else if (data[1].value < cefr && cefr <= data[2].value) {
+      maxIndex = 2; // B1 level
+    } 
+    else if (data[2].value < cefr && cefr <= data[3].value) {
+      maxIndex = 3; // B2 level
+    } 
+    else if (data[3].value < cefr && cefr <= data[4].value) {
+      maxIndex = 4; // C1level
+    } 
+    else if (data[4].value < cefr && cefr <= 100) {
+      maxIndex = 5; // C2 level
     }
     else {
       maxIndex = -1; // UNDEFİNED level

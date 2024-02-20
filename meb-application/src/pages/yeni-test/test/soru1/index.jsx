@@ -158,18 +158,18 @@ function Test1() {
           console.log("API cevabı:", response.data);
           if(attempt===1){
             setAttempt1(response.data.data.werScore)
-            localStorage.setItem("werScore1",response.data.data.werScore)
+            localStorage.setItem("werScore1",response.data.data.werScore||0)
             console.log(attempt1)
           }
           if(attempt===2){
             setAttempt2(response.data.data.werScore)
-            localStorage.setItem("werScore1",response.data.data.werScore)
+            localStorage.setItem("werScore1",response.data.data.werScore||0)
             console.log(attempt2)
 
           }
           if(attempt===3){
             setAttempt3(response.data.data.werScore)
-            localStorage.setItem("werScore1",response.data.data.werScore)
+            localStorage.setItem("werScore1",response.data.data.werScore||0)
             console.log(attempt3)
 
 

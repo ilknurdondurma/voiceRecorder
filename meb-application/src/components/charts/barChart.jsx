@@ -28,7 +28,7 @@ function EchartsBarChart({ data }) {
                 visualMap: {
                     orient: 'horizontal',
                     left: 'center',
-                    min: 10,
+                    min: 0,
                     max: 100,
                     text: ['High Score', 'Low Score'],
                     dimension: 0,

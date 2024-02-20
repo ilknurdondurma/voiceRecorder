@@ -23,6 +23,12 @@ function YeniTest() {
 
   const handleSubmit=async (values)=>{
     console.log(values);
+    await localStorage.removeItem('werScore1');
+    await localStorage.removeItem('werScore2');
+    await localStorage.removeItem('werScore3');
+    await localStorage.removeItem('cefrLevel');
+    await localStorage.removeItem('quizId');
+
     var formData ={
       "studentFullName": values?.name+" "+values?.surname,
       "class": values?.class,

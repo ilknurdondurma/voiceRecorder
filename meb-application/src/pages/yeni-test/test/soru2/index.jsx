@@ -158,17 +158,17 @@ function Test2() {
           setCheckWrongWords(response.data.data.wrongWords);
           if(attempt===1){
             setAttempt1(response.data.data.werScore)
-            localStorage.setItem("werScore2",response.data.data.werScore)
+            localStorage.setItem("werScore2",response.data.data.werScore||0)
 
           }
           if(attempt===2){
             setAttempt2(response.data.data.werScore)
-            localStorage.setItem("werScore2",response.data.data.werScore)
+            localStorage.setItem("werScore2",response.data.data.werScore||0)
 
           }
           if(attempt===3){
             setAttempt3(response.data.data.werScore)
-            localStorage.setItem("werScore2",response.data.data.werScore)
+            localStorage.setItem("werScore2",response.data.data.werScore||0)
 
           }
           console.log("wrooong :"+checkWrongWords)

@@ -54,7 +54,7 @@ function Test() {
         <div className="w-1/6 bg-green hover:underline cursor-pointer rounded-xl" onClick={changeTestComp}>
           <div className={`flex justify-center m-1 p-1 ${ currentTest >3 ?" hidden ":""}`}>
             <GrFormNextLink size="25px" className="m-1" />
-            { currentTest ===3 ?"Bitir":"Sonraki Soru"}
+            { currentTest ===3 ?"Sonucu Gör":"Sonraki Soru"}
           </div>
         </div>
       </div>
