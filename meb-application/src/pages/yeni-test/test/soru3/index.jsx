@@ -150,17 +150,17 @@ function Test3() {
       };
       function cefrConverter(level) {
         switch (level) {
-          case 'A1':
+          case 'T1':
             return 'T1';
-          case 'A2':
+          case 'T2':
             return 'T2';
-          case 'B1':
+          case 'R1':
             return 'R1';
-          case 'B2':
+          case 'R2':
             return 'R2';
-          case 'C1':
+          case 'TR1':
             return 'TR1';
-          case 'C2':
+          case 'TR2':
             return 'TR2';
           default:
             return 'Geçersiz Seviye';
@@ -194,8 +194,8 @@ function Test3() {
             await setAttempt1(response.data.data.werScore||0)
             console.log("attemteki wer:", attempt1);
             console.log("API dönen", response.data.data.werScore);
-            await setCefrLevel(cefrConverter(response.data.data.cefrLevel))
-            localStorage.setItem("cefrLevel",cefrConverter(response.data.data.cefrLevel)||0)
+            await setCefrLevel(response.data.data.cefrLevel)
+            localStorage.setItem("cefrLevel",response.data.data.cefrLevel ||0)
             localStorage.setItem("werScore3",response.data.data.werScore||0)
 
           }
@@ -203,8 +203,8 @@ function Test3() {
             await setAttempt2(response.data.data.werScore||0)
             console.log("attemteki wer:", attempt2);
             console.log("API dönen", response.data.data.werScore)
-            await setCefrLevel(cefrConverter(response.data.data.cefrLevel))
-            localStorage.setItem("cefrLevel",cefrConverter(response.data.data.cefrLevel)||0)
+            await setCefrLevel(response.data.data.cefrLevel)
+            localStorage.setItem("cefrLevel",response.data.data.cefrLevel||0)
             localStorage.setItem("werScore3",response.data.data.werScore||0)
 
           }
@@ -212,8 +212,8 @@ function Test3() {
             await setAttempt3(response.data.data.werScore||0)
             console.log("attemteki wer:", attempt3);
             console.log("API dönen", response.data.data.werScore)
-            await setCefrLevel(cefrConverter(response.data.data.cefrLevel))
-            localStorage.setItem("cefrLevel",cefrConverter(response.data.data.cefrLevel)||0)
+            await setCefrLevel(response.data.data.cefrLevel)
+            localStorage.setItem("cefrLevel",response.data.data.cefrLevel||0)
             localStorage.setItem("werScore3",response.data.data.werScore||0)
 
           }
