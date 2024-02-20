@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import VerticalBarChart from '../../../../components/charts/verticalBarChart'
 import { FaAngleDoubleRight } from "react-icons/fa";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 function Sonuc() {
   const werScore1 = (parseFloat(localStorage.getItem('werScore1')) ||0);
   const werScore2 = (parseFloat(localStorage.getItem('werScore2')) ||0);
@@ -15,11 +16,23 @@ function Sonuc() {
     localStorage.removeItem('werScore2');
     localStorage.removeItem('werScore3');
     localStorage.removeItem('quizId');
+    localStorage.removeItem('cefrLevel');
+
 
   }
+  const checkQuizId=localStorage.getItem('quizId');
+  const navigate=useNavigate();
+
+  useEffect(() => {
+    if (checkQuizId===null) {
+      navigate('/yeni-test')
+    }
+  }, [checkQuizId]);
+  
 
   return (
     <div>
+      <ToastContainer/>
         <div className='flex justify-end mx-10 '>
           <NavLink to={"/yeni-test"} className="rounded-xl bg-green w-1/6 border-2 text-center p-2" onClick={handleCloseTest}>
             <div 

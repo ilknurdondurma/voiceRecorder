@@ -9,8 +9,10 @@ import { createAttempt} from "../../../../api/index";
 import succesMessage from "../../../../helper/toasts/successMessage";
 import errorMessage from "../../../../helper/toasts/errorMessage";
 import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function Test1() {
+  
     const metinler = [
         {text:"Matematikte açılar konusuna geçtik."},
         {text:"Bir yağmur yağsında bir şarkı çalsın."},
@@ -33,7 +35,14 @@ function Test1() {
       const [loading, setLoading] = useState(false);
       const [read, setRead] = useState(false);
       const [attempt, setAttempt] = useState(1);
-    
+      const checkQuizId=localStorage.getItem('quizId');
+      const navigate=useNavigate();
+
+      useEffect(() => {
+        if (checkQuizId===null) {
+          navigate('/yeni-test')
+        }
+      }, [checkQuizId]);
 
     
       useEffect(() => {

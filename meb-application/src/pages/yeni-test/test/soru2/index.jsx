@@ -8,6 +8,8 @@ import EchartsBarChart from '../../../../components/charts/barChart';
 import { createAttempt} from "../../../../api/index";
 import succesMessage from "../../../../helper/toasts/successMessage";
 import errorMessage from "../../../../helper/toasts/errorMessage";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 function Test2() {
     const metinler = [
@@ -33,7 +35,15 @@ function Test2() {
       const [read, setRead] = useState(false);
       const [attempt, setAttempt] = useState(1);
       const [checkWrongWords, setCheckWrongWords] = useState([]);
-    
+      const checkQuizId=localStorage.getItem('quizId');
+      const navigate=useNavigate();
+
+      useEffect(() => {
+        if (checkQuizId===null) {
+          navigate('/yeni-test')
+        }
+      }, [checkQuizId]);
+
     
     
     
@@ -226,6 +236,8 @@ function Test2() {
 
   return (
     <>
+        <ToastContainer/>
+
       <div className="test-section bg-white p-5 rounded-md border-2">
         <div className="text flex ">
             <div

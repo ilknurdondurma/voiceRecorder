@@ -20,7 +20,8 @@ function EchartsBarChart({ data }) {
             const myChart = echarts.init(chartRef.current);
             const option = {
                 dataset: {
-                    source: data
+                    source: data,
+                    
                 },
                 grid: { containLabel: true },
                 xAxis: { name: 'score' },

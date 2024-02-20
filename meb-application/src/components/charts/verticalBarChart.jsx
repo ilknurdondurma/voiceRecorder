@@ -22,7 +22,7 @@ const VerticalBarChart = ({ cefr=70 }) => {
     // cefr değerine eşit olan çubuğun indeksini bul
     let maxIndex = 1;
 
-    if ( 0 < cefr && cefr <= data[1].value) {
+    if ( 0 <= cefr && cefr <= data[0].value) {
       maxIndex = 0; // A1 level
     }
     else if (data[0].value < cefr && cefr <= data[1].value) {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PiStudentFill } from "react-icons/pi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CiAlignTop } from "react-icons/ci";
+import { PiExamLight } from "react-icons/pi";
 import { FaBookOpenReader } from "react-icons/fa6";
 import {BiSolidBookAdd } from "react-icons/bi";
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -50,6 +51,12 @@ function Navbar(){
           title: 'Yeni Okuma',
           icon: <BiSolidBookAdd size="20px" color='white'/>,
           route:'yeni-okuma'
+        },
+        {
+          id: 4,
+          title: 'Yeni Test',
+          icon: <PiExamLight size="20px" color='white'/>,
+          route:'yeni-test'
         },
       ];
 
