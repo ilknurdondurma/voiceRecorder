@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API=axios.create({baseURL:'https://192.168.1.106:8083/api/v2'})
+const API=axios.create({baseURL:''})
 
 // const token = JSON.parse(localStorage.getItem('token'));
 
